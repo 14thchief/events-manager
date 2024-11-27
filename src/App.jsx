@@ -78,7 +78,7 @@ function App() {
 
   return (
     <div className="w-screen max-w-full h-screen">
-      <div className='hero h-[60vh] md:h-[99vh]'>
+      <div className='hero bg-blend-multiply bg-black bg-opacity-[0.3] h-[60vh] md:h-[99vh]'>
         <header className="lg:max-w-[1240px] mx-auto header-wrap bg-transparent text-white">
           <div className="header-wrap-inner flex items-center justify-between px-4 py-3 md:px-8">
             {/* Left Part: Logo */}
@@ -117,7 +117,7 @@ function App() {
               <nav className="flex items-center justify-between gap-2 text-right">
                 <a
                   href="https://ap-lbc.com/about-us/"
-                  className="!text-black hover:text-gray-400 font-bold transition"
+                  className="!text-white hover:text-gray-400 font-bold transition"
                 >
                   01
                   <br />
@@ -125,7 +125,7 @@ function App() {
                 </a>
                 <a
                   href="https://ap-lbc.com/solutions/"
-                  className="!text-black hover:text-gray-400 font-bold transition"
+                  className="!text-white hover:text-gray-400 font-bold transition"
                 >
                   02
                   <br />
@@ -133,7 +133,7 @@ function App() {
                 </a>
                 <a
                   href="https://ap-lbc.com/hotels-and-apartments/"
-                  className="!text-black hover:text-gray-400 font-bold transition"
+                  className="!text-white hover:text-gray-400 font-bold transition"
                 >
                   03
                   <br />
@@ -141,7 +141,7 @@ function App() {
                 </a>
                 <a
                   href="https://ap-lbc.com/blog-resources/"
-                  className="!text-black hover:text-gray-400 font-bold transition"
+                  className="!text-white hover:text-gray-400 font-bold transition"
                 >
                   04
                   <br />
@@ -149,7 +149,7 @@ function App() {
                 </a>
                 <a
                   href="https://ap-lbc.com/contact-us/"
-                  className="!text-black hover:text-gray-400 font-bold transition"
+                  className="!text-white hover:text-gray-400 font-bold transition"
                 >
                   05
                   <br />
@@ -160,14 +160,14 @@ function App() {
 
             {/* Optional CTA */}
             <div className="menu-optional hidden md:block">
-              <button
+              <a
                 href="http://properties.ap-lbc.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="button btn-optional bg-black text-white px-4 py-2 rounded hover:bg-[#b49c4f] !min-w-max transition"
+                className="button btn-optional ml-2 bg-black text-white hover:text-white px-4 py-3 rounded hover:bg-[#b49c4f] !min-w-max transition"
               >
                 Explore our properties
-              </button>
+              </a>
             </div>
           </div>
 
@@ -203,31 +203,31 @@ function App() {
             <div className="holder text-center text-white space-y-6 mt-8">
               <a
                 href="https://ap-lbc.com/about-us/"
-                className="block text-lg !text-black hover:text-gray-400 font-bold transition"
+                className="block text-lg !text-white hover:text-gray-400 font-bold transition"
               >
                 About Us
               </a>
               <a
                 href="https://ap-lbc.com/solutions/"
-                className="block text-lg !text-black hover:text-gray-400 font-bold transition"
+                className="block text-lg !text-white hover:text-gray-400 font-bold transition"
               >
                 Solutions
               </a>
               <a
                 href="https://ap-lbc.com/hotels-and-apartments/"
-                className="block text-lg !text-black hover:text-gray-400 font-bold transition"
+                className="block text-lg !text-white hover:text-gray-400 font-bold transition"
               >
                 Hotels and Apartments
               </a>
               <a
                 href="https://ap-lbc.com/blog-resources/"
-                className="block text-lg !text-black hover:text-gray-400 font-bold transition"
+                className="block text-lg !text-white hover:text-gray-400 font-bold transition"
               >
                 Blog & Resources
               </a>
               <a
                 href="https://ap-lbc.com/contact-us/"
-                className="block text-lg !text-black hover:text-gray-400 font-bold transition"
+                className="block text-lg !text-white hover:text-gray-400 font-bold transition"
               >
                 Contact Us
               </a>
@@ -299,7 +299,7 @@ function App() {
             <h2 className='font-bold text-lg md:text-right'>
               Subtotal
               <br />
-              <span className='font-light'>${total}.00</span>
+              <span className='font-light'>£{total}.00</span>
             </h2>
           </div>
         </div>
@@ -385,7 +385,7 @@ function App() {
                     <p><strong>{item.event}</strong></p>
                     <p><small>{item.segment}</small></p>
                     <p><small><strong>{item.city}</strong></small></p>
-                    <p className='relative bottom-0 mt-4'><strong>${item.hotel_cost}</strong></p>
+                    <p className='relative bottom-0 mt-4'><strong>£{item.hotel_cost/100}.00</strong></p>
                   </div>
                 </div>
               )
@@ -409,11 +409,11 @@ function App() {
           disabled={total === 0}
         >
           Accept
-          <span className='font-normal'>${total}.00</span>
+          <span className='font-normal'>£{total/100}.00</span>
         </button>
       </section>
 
-      <FormDialog open={open} setOpen={setOpen} handleSubmit={acceptEvents} />
+      <FormDialog total={`£${total/100}.00`} open={open} setOpen={setOpen} handleSubmit={acceptEvents} />
     </div>
   )
 }

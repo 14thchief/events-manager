@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function FormDialog({open, setOpen, handleSubmit}) {
+export default function FormDialog({open, setOpen, handleSubmit, total}) {
 
   const handleClose = () => {
     setOpen(false);
@@ -35,7 +35,15 @@ export default function FormDialog({open, setOpen, handleSubmit}) {
             Are you ready to confirm your selections?
           </DialogContentText>
           <TextField
-            autoFocus
+            required
+            margin="dense"
+            id="name"
+            name="full_name"
+            label="Full Name"
+            type="text"
+            fullWidth
+          />
+          <TextField
             required
             margin="dense"
             id="name"
@@ -44,30 +52,23 @@ export default function FormDialog({open, setOpen, handleSubmit}) {
             type="email"
             fullWidth
           />
-          <div className='flex flex-col md:flex-row column-gap-2 md:gap-4'>
-            <TextField
-                required
-                margin="dense"
-                id="name"
-                name="first_name"
-                label="First Name"
-                type="text"
-                fullWidth
-            />
-            <TextField
-                required
-                margin="dense"
-                id="name"
-                name="last_name"
-                label="Last Name"
-                type="text"
-                fullWidth
-            />
-          </div>
-            <DialogActions>
-            {/* <Button onClick={handleClose} className='!text-black'>Cancel</Button> */}
-            <Button type="submit" className={'!bg-[#b49c4f] !text-white !mx-auto !w-full !max-w-[400px] !h-[50px]'}>Confirm</Button>
-            </DialogActions>
+          <TextField
+            margin="dense"
+            id="name"
+            name="organization"
+            label="Organization: (Optional)"
+            type="text"
+            fullWidth
+          />
+          <DialogActions>
+          {/* <Button onClick={handleClose} className='!text-black'>Cancel</Button> */}
+          <Button 
+            type="submit" 
+            className={'!flex !gap-2 !items-center !bg-[#b49c4f] !text-white !mx-auto !max-w-max !w-[200px] !h-[50px]'}
+          >
+            Accept <span className='font-bold'>{total ?? ""}</span>
+          </Button>
+          </DialogActions>
         </DialogContent>
       </Dialog>
     </React.Fragment>
