@@ -78,7 +78,7 @@ function App() {
 
   return (
     <div className="w-screen max-w-full h-screen">
-      <div className='hero h-[99vh]'>
+      <div className='hero h-[60vh] md:h-[99vh]'>
         <header className="lg:max-w-[1240px] mx-auto header-wrap bg-transparent text-white">
           <div className="header-wrap-inner flex items-center justify-between px-4 py-3 md:px-8">
             {/* Left Part: Logo */}
@@ -237,7 +237,7 @@ function App() {
 
         <section className="lg:max-w-[1240px] mx-auto h-[75%] flex items-center bg-opacity-[0.8] px-4 py-6">
           <div className="bg-black bg-opacity-[0.7] px-10 py-4 lg:max-w-[600px] font-semibold mx-auto">
-            <h1 className="text-[28px] leading-relaxed text-center text-white">
+            <h1 className="text-[22px] md:text-[28px] leading-relaxed text-center text-white">
               APLBC 2025:
               <br />
               Where Business Meets Opportunity
