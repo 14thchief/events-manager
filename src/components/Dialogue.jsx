@@ -64,11 +64,11 @@ export default function FormDialog({open, setOpen, handleSubmit}) {
                 fullWidth
             />
           </div>
+            <DialogActions>
+            {/* <Button onClick={handleClose} className='!text-black'>Cancel</Button> */}
+            <Button type="submit" className={'!bg-[#b49c4f] !text-white !mx-auto !w-full !max-w-[400px] !h-[50px]'}>Confirm</Button>
+            </DialogActions>
         </DialogContent>
-        <DialogActions>
-          {/* <Button onClick={handleClose} className='!text-black'>Cancel</Button> */}
-          <Button type="submit" className={'!bg-[#b49c4f] !text-white !mx-auto !w-full !max-w-[400px] !h-[50px]'}>Confirm</Button>
-        </DialogActions>
       </Dialog>
     </React.Fragment>
   );
