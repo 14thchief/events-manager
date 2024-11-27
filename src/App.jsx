@@ -117,7 +117,7 @@ function App() {
               <nav className="flex items-center justify-between gap-2 text-right">
                 <a
                   href="https://ap-lbc.com/about-us/"
-                  className="!text-black hover:text-gray-400 font-normal transition"
+                  className="!text-black hover:text-gray-400 font-bold transition"
                 >
                   01
                   <br />
@@ -125,7 +125,7 @@ function App() {
                 </a>
                 <a
                   href="https://ap-lbc.com/solutions/"
-                  className="!text-black hover:text-gray-400 font-normal transition"
+                  className="!text-black hover:text-gray-400 font-bold transition"
                 >
                   02
                   <br />
@@ -133,7 +133,7 @@ function App() {
                 </a>
                 <a
                   href="https://ap-lbc.com/hotels-and-apartments/"
-                  className="!text-black hover:text-gray-400 font-normal transition"
+                  className="!text-black hover:text-gray-400 font-bold transition"
                 >
                   03
                   <br />
@@ -141,7 +141,7 @@ function App() {
                 </a>
                 <a
                   href="https://ap-lbc.com/blog-resources/"
-                  className="!text-black hover:text-gray-400 font-normal transition"
+                  className="!text-black hover:text-gray-400 font-bold transition"
                 >
                   04
                   <br />
@@ -149,7 +149,7 @@ function App() {
                 </a>
                 <a
                   href="https://ap-lbc.com/contact-us/"
-                  className="!text-black hover:text-gray-400 font-normal transition"
+                  className="!text-black hover:text-gray-400 font-bold transition"
                 >
                   05
                   <br />
@@ -203,31 +203,31 @@ function App() {
             <div className="holder text-center text-white space-y-6 mt-8">
               <a
                 href="https://ap-lbc.com/about-us/"
-                className="block text-lg !text-black hover:text-gray-400 font-normal transition"
+                className="block text-lg !text-black hover:text-gray-400 font-bold transition"
               >
                 About Us
               </a>
               <a
                 href="https://ap-lbc.com/solutions/"
-                className="block text-lg !text-black hover:text-gray-400 font-normal transition"
+                className="block text-lg !text-black hover:text-gray-400 font-bold transition"
               >
                 Solutions
               </a>
               <a
                 href="https://ap-lbc.com/hotels-and-apartments/"
-                className="block text-lg !text-black hover:text-gray-400 font-normal transition"
+                className="block text-lg !text-black hover:text-gray-400 font-bold transition"
               >
                 Hotels and Apartments
               </a>
               <a
                 href="https://ap-lbc.com/blog-resources/"
-                className="block text-lg !text-black hover:text-gray-400 font-normal transition"
+                className="block text-lg !text-black hover:text-gray-400 font-bold transition"
               >
                 Blog & Resources
               </a>
               <a
                 href="https://ap-lbc.com/contact-us/"
-                className="block text-lg !text-black hover:text-gray-400 font-normal transition"
+                className="block text-lg !text-black hover:text-gray-400 font-bold transition"
               >
                 Contact Us
               </a>
@@ -369,9 +369,9 @@ function App() {
                       `}
                     />
                     <p className='text-[#b49c4f] text-[15px] font-bold'>
-                    {mS[mL.findIndex((i)=> i.toLowerCase() == item.month.toLowerCase())]}
+                    {mS[mL.findIndex((i)=> i.toLowerCase() == item.month.toLowerCase())] || "TBA"}
                     <br />
-                    {(new Date(item.start_date)).getDay()+1} 
+                    {mS[mL.findIndex((i)=> i.toLowerCase() == item.month.toLowerCase())] && (new Date(item.start_date)).getDay()+1} 
                     {item.end_date !== item.start_date? 
                     <span>
                       - {(new Date(item.end_date)).getDay()+1}
