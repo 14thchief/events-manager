@@ -78,7 +78,7 @@ function App() {
 
   return (
     <div className="w-screen max-w-full h-screen">
-      <div className='hero h-[100vh]'>
+      <div className='hero h-[99vh]'>
         <header className="lg:max-w-[1240px] mx-auto header-wrap bg-transparent text-white">
           <div className="header-wrap-inner flex items-center justify-between px-4 py-3 md:px-8">
             {/* Left Part: Logo */}
