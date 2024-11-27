@@ -252,7 +252,7 @@ function App() {
         <p className='text-center font-bold'>
           Welcome to APLBC's 2025 events calendar!
           <br />
-          We invite you top explore our calendar of tradeshows, events, and sales blitz initiatives.
+          We invite you to explore our calendar of tradeshows, events, and sales blitz initiatives.
           <br />
           With limited spots available for enrollment, act quickly to:
         </p>
