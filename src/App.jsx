@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
+import FormDialog from './components/Dialogue';
 
 function App() {
+  const [open, setOpen] = useState(false);
   const [events, setEvents] = useState([]);
   useEffect(()=> {
     getEvents()
@@ -15,10 +15,21 @@ function App() {
     });
 
     const {data} = await result.json();
-    console.log(data);
     setEvents(data);
   }
+
+  const acceptEvents = async (formJSON)=> {
+    console.log({...formJSON, events: selectedEvents})
+    const result = await fetch(`https://api.aplbcevents.com:8080/events`, {
+      method: 'POST',
+      body: JSON.stringify({...formJSON, events: selectedEvents}),
+    });
+
+    const {data} = await result.json();
+    console.log(data);
+  }
   
+  const acceptRef = useRef(null);
   const [month, setMonth] = useState("");
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [selectedRegions, setSelectedRegion] = useState([]);
@@ -37,9 +48,12 @@ function App() {
       if (prev.find(item=> item.event === data.event)) {
         return prev.filter(item=> item.event !== data.event);
       } 
+      acceptRef.current?.scrollIntoView({
+        behavior: 'smooth',
+      })
 
       return [...prev, data];
-    })
+    });
   }
 
   const total = selectedEvents?.map(x=> x.hotel_cost)?.reduce((a, b)=> a + b, 0);
@@ -64,23 +78,177 @@ function App() {
 
   return (
     <div className="w-screen max-w-full h-screen">
-      <header className="border h-[60px] min-h-max p-4 w-full">
-      {
+      <div className='hero h-[100vh]'>
+        <header className="lg:max-w-[1240px] mx-auto header-wrap bg-transparent text-white">
+          <div className="header-wrap-inner flex items-center justify-between px-4 py-3 md:px-8">
+            {/* Left Part: Logo */}
+            <div className="left-part flex items-center">
+              <button
+                className="mobile-hamburger block md:hidden text-white focus:outline-none"
+                aria-controls="site-menu"
+                aria-expanded="false"
+              >
+                <svg
+                  className="h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16m-7 6h7"
+                  />
+                </svg>
+              </button>
+              <a href="https://ap-lbc.com/" className="branding-title ml-3 text-lg font-bold">
+                <img
+                  className="w-36"
+                  src="https://ap-lbc.com/wp-content/uploads/2023/07/APLBC-Logos-2022-Half-White-1.png"
+                  alt="APLBC"
+                />
+              </a>
+            </div>
 
-      }
-      </header>
-      <section className="hero h-[75%] max-h-[500px] flex items-center border bg-gray-100 bg-opacity-[0.8] px-4 py-6">
-        <div className="bg-black bg-opacity-[0.7] px-10 py-4 lg:max-w-[500px] font-semibold mx-auto">
-          <h1 className="text-[22px] text-center text-white">
-            APLBC 2025:
-            <br />
-            Where Business Meets Opportunity
-            <br />
-            Global Event Schedule & Strategic Initiatives
-          </h1>
-        </div>
-      </section>
-      <section className='px-4 py-6 flex flex-col gap-4'>
+            {/* Right Part: Navigation */}
+            <div className="flex-1 px-4 right-part hidden md:block">
+              <nav className="flex items-center justify-between gap-2 text-right">
+                <a
+                  href="https://ap-lbc.com/about-us/"
+                  className="!text-black hover:text-gray-400 font-normal transition"
+                >
+                  01
+                  <br />
+                  About Us
+                </a>
+                <a
+                  href="https://ap-lbc.com/solutions/"
+                  className="!text-black hover:text-gray-400 font-normal transition"
+                >
+                  02
+                  <br />
+                  Solutions
+                </a>
+                <a
+                  href="https://ap-lbc.com/hotels-and-apartments/"
+                  className="!text-black hover:text-gray-400 font-normal transition"
+                >
+                  03
+                  <br />
+                  Hotels and Apartments
+                </a>
+                <a
+                  href="https://ap-lbc.com/blog-resources/"
+                  className="!text-black hover:text-gray-400 font-normal transition"
+                >
+                  04
+                  <br />
+                  Blog & Resources
+                </a>
+                <a
+                  href="https://ap-lbc.com/contact-us/"
+                  className="!text-black hover:text-gray-400 font-normal transition"
+                >
+                  05
+                  <br />
+                  Contact Us
+                </a>
+              </nav>
+            </div>
+
+            {/* Optional CTA */}
+            <div className="menu-optional hidden md:block">
+              <button
+                href="http://properties.ap-lbc.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="button btn-optional bg-black text-white px-4 py-2 rounded hover:bg-[#b49c4f] !min-w-max transition"
+              >
+                Explore our properties
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Menu Overlay */}
+          <div
+            id="site-menu"
+            className="mobile-overlay hidden fixed inset-0 bg-gray-900 bg-opacity-80 z-50"
+          >
+            <div className="close-bar flex justify-end p-4">
+              <button
+                className="icon-button text-white"
+                aria-label="Close"
+                onClick={() => {
+                  // Close logic here
+                }}
+              >
+                <svg
+                  className="h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div className="holder text-center text-white space-y-6 mt-8">
+              <a
+                href="https://ap-lbc.com/about-us/"
+                className="block text-lg !text-black hover:text-gray-400 font-normal transition"
+              >
+                About Us
+              </a>
+              <a
+                href="https://ap-lbc.com/solutions/"
+                className="block text-lg !text-black hover:text-gray-400 font-normal transition"
+              >
+                Solutions
+              </a>
+              <a
+                href="https://ap-lbc.com/hotels-and-apartments/"
+                className="block text-lg !text-black hover:text-gray-400 font-normal transition"
+              >
+                Hotels and Apartments
+              </a>
+              <a
+                href="https://ap-lbc.com/blog-resources/"
+                className="block text-lg !text-black hover:text-gray-400 font-normal transition"
+              >
+                Blog & Resources
+              </a>
+              <a
+                href="https://ap-lbc.com/contact-us/"
+                className="block text-lg !text-black hover:text-gray-400 font-normal transition"
+              >
+                Contact Us
+              </a>
+            </div>
+          </div>
+        </header>
+
+        <section className="lg:max-w-[1240px] mx-auto h-[75%] flex items-center bg-opacity-[0.8] px-4 py-6">
+          <div className="bg-black bg-opacity-[0.7] px-10 py-4 lg:max-w-[600px] font-semibold mx-auto">
+            <h1 className="text-[28px] leading-relaxed text-center text-white">
+              APLBC 2025:
+              <br />
+              Where Business Meets Opportunity
+              <br />
+              Global Event Schedule & Strategic Initiatives
+            </h1>
+          </div>
+        </section>
+      </div>
+
+      <section className='lg:max-w-[1240px] mx-auto md:px-16 md:py-12 px-6 py-6 flex flex-col gap-8'>
         <p className='text-center font-bold'>
           Welcome to APLBC's 2025 events calendar!
           <br />
@@ -89,7 +257,7 @@ function App() {
           With limited spots available for enrollment, act quickly to:
         </p>
 
-        <div className='bg-yellow-600 mx-auto w-max px-12 py-2'>
+        <div className='bg-[#b49c4f] mx-auto w-max px-12 py-2'>
           <ul className='list-disc text-white font-bold'>
             <li>Elevate your brand's visibility</li>
             <li>Expand market presence</li>
@@ -97,19 +265,21 @@ function App() {
           </ul>
         </div>
       </section>
-      <hr className='border-black my-10'/>
-      <section className='text-center px-4 py-6 flex flex-col gap-4'>
+
+      <hr className='border-black my-4'/>
+
+      <section className='lg:max-w-[1240px] mx-auto text-center md:px-16 px-6 py-6 flex flex-col gap-4'>
         <p className=''>
           Don't miss out! Secure your spot on a first-come, first-served basis and join us in driving business success.
           <br />
           <strong>Enrollments are open till December 20th 2024.</strong>
         </p>
-        <p className='text-yellow-500 italic text-[17px] font-bold'>
-          Choose your events: Select the events you are interested in and click "Accept" to secure your spot.
+        <p className='text-[#b49c4f] italic text-[17px]'>
+          Choose your events: Check the boxes next to the events you are interested in and click <span className='font-bold'>"Accept"</span> to secure your spot.
         </p>
       </section>
 
-      <section className='px-4 py-6 flex flex-col gap-6'>
+      <section className='lg:max-w-[1240px] mx-auto md:px-16 px-6 py-6 flex flex-col gap-6'>
         <div className='flex items-center justify-between gap-4 flex-wrap-reverse'>
           <label className='flex flex-col gap-1'>
             Select Month
@@ -126,25 +296,15 @@ function App() {
             </select>
           </label>
           <div className='flex-1 flex gap-2 items-center justify-between md:justify-end flex-wrap md:flex-nowrap min-w-full md:min-w-max'>
-            <h2 className='font-bold text-lg'>
-              Subtotal:
-              ${total}
+            <h2 className='font-bold text-lg md:text-right'>
+              Subtotal
+              <br />
+              <span className='font-light'>${total}.00</span>
             </h2>
-            <button 
-              className={`w-full md:w-[100px] ${total? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
-              onClick={()=> {
-                total?
-                alert(`You are going to pay ${total}`)
-                : alert('You must select atleat one event to continue.')
-              }}
-              disabled={total === 0}
-            >
-              Accept
-            </button>
           </div>
         </div>
 
-        <div className='flex flex-col md:flex-row gap-4'>
+        <div className='flex flex-col md:flex-row md:justify-between gap-4'>
           <div className='w-max h-max flex flex-col gap-4 md:basis-[28%] xl:basis-[20%]'>
             <h2 className='font-bold text-lg'>Region</h2>
             
@@ -158,7 +318,7 @@ function App() {
                 <div 
                   type="checkbox" 
                   name={item} 
-                  className={`rounded border h-5 w-5 ${selectedRegions?.includes(item)? 'bg-blue-500' : 'bg-gray-200'}`}
+                  className={`rounded border h-5 w-5 ${selectedRegions?.includes(item)? 'bg-[#b49c4f]' : 'bg-gray-200'}`}
                 />
                 {item}
               </label>
@@ -166,22 +326,36 @@ function App() {
             </div>
           </div>
           
-          <div className='flex-1 flex flex-col gap-4'>
-            <div className='flex items-center gap-4'>
+          <div className='flex-1 flex flex-col items-end gap-4 max-w-max'>
+            <div 
+              className='flex items-center gap-4 w-full'
+              onClick={()=> {
+                if (selectedEvents.length === filteredEvents.length) {
+                  setSelectedEvents([]) 
+                } else {
+                  setSelectedEvents(filteredEvents);
+                  acceptRef.current?.scrollIntoView({
+                    behavior: 'smooth',
+                  });
+                } 
+              }}
+            >
               <div 
                 type="checkbox"
-                onClick={()=> selectedEvents.length === filteredEvents.length? setSelectedEvents([]) : setSelectedEvents(filteredEvents)}
-                className={`rounded border h-5 w-5 ${selectedEvents.length === filteredEvents.length? 'bg-blue-500' : 'bg-gray-200'}`}
+                className={`rounded border h-5 w-5 ${selectedEvents.length === filteredEvents.length? 'bg-[#b49c4f]' : 'bg-gray-200'}`}
               />
-              <h2 className='font-bold text-lg'>Select All</h2>
+              <h2 className='text-lg cursor-pointer'>Select All</h2>
             </div>
-            <div className='flex flex-col gap-4 max-h-[50vh] overflow-auto border-box'>
+            <div className='flex flex-col gap-4 max-h-[80vh] overflow-auto border-box'>
             {filteredEvents.map((item, i) => {
               
               return (
                 <div 
                   key={i} 
-                  className='flex bg-zinc-200 p-4'
+                  className={`
+                    flex bg-gray-200 p-4 lg:w-[700px] max-w-[100%] min-h-max overflow-auto
+                    cursor-pointer active:scale-[101%]
+                  `}
                   onClick={()=> handleSelectEvent(item)}
                 >
                   <div className='flex flex-col gap-4 basis-[100px]'>
@@ -191,10 +365,10 @@ function App() {
                       className={`
                         rounded border h-5 w-5 
                         ${selectedEvents?.find(i=> i.event === item.event)
-                        ? 'bg-gray-800' : 'bg-white'}
+                        ? 'bg-[#b49c4f]' : 'bg-white'}
                       `}
                     />
-                    <p className='text-yellow-600 text-[15px] font-bold'>
+                    <p className='text-[#b49c4f] text-[15px] font-bold'>
                     {mS[mL.findIndex((i)=> i.toLowerCase() == item.month.toLowerCase())]}
                     <br />
                     {(new Date(item.start_date)).getDay()+1} 
@@ -219,7 +393,27 @@ function App() {
             </div>
           </div>
         </div>
+
+        <button 
+          ref={acceptRef}
+          className={`
+            w-full md:w-[400px] md:h-[60px] mx-auto
+            flex justify-between items-center gap-2 font-bold text-[20px]
+            ${total? "bg-[#b49c4f]" : "bg-gray-200"}
+          `}
+          onClick={()=> {
+            total?
+            setOpen(true)
+            : alert('You must select atleat one event to continue.')
+          }}
+          disabled={total === 0}
+        >
+          Accept
+          <span className='font-normal'>${total}.00</span>
+        </button>
       </section>
+
+      <FormDialog open={open} setOpen={setOpen} handleSubmit={acceptEvents} />
     </div>
   )
 }
