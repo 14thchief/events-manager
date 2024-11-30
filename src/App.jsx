@@ -3,6 +3,7 @@ import './App.css'
 import FormDialog from './components/Dialogue';
 
 function App() {
+  const [openMenu, setOpenMenu] = useState(false);
   const [open, setOpen] = useState(false);
   const [events, setEvents] = useState([]);
   useEffect(()=> {
@@ -87,6 +88,7 @@ function App() {
                 className="mobile-hamburger block md:hidden text-white focus:outline-none"
                 aria-controls="site-menu"
                 aria-expanded="false"
+                onClick={()=> setOpenMenu(true)}
               >
                 <svg
                   className="h-6 w-6"
@@ -174,15 +176,13 @@ function App() {
           {/* Mobile Menu Overlay */}
           <div
             id="site-menu"
-            className="mobile-overlay hidden fixed inset-0 bg-gray-900 bg-opacity-80 z-50"
+            className={`mobile-overlay ${openMenu? "block" : "hidden"} md:hidden fixed inset-0 bg-gray-900 bg-opacity-80 z-50`}
           >
             <div className="close-bar flex justify-end p-4">
               <button
                 className="icon-button text-white"
                 aria-label="Close"
-                onClick={() => {
-                  // Close logic here
-                }}
+                onClick={()=> setOpenMenu(true)}
               >
                 <svg
                   className="h-6 w-6"
@@ -299,7 +299,7 @@ function App() {
             <h2 className='font-bold text-lg md:text-right'>
               Subtotal
               <br />
-              <span className='font-light'>£{total}.00</span>
+              <span className='font-light'>£{total/100}.00</span>
             </h2>
           </div>
         </div>
