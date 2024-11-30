@@ -1,10 +1,37 @@
 #root {
   /* max-width: 1280px; */
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
+  width: 100%;
+  max-width: 100%;
 }
 
 .hero {
   background-image: url("./assets/hero-image.jpg");
   background-size: cover;
+}
+
+/* select option:hover, select option:checked {
+  box-shadow: 0 0 10px 100px #b49c4f inset;
+} */
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #b49c4f;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #b49c4f90;
 }

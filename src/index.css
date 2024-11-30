@@ -10,11 +10,15 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  width: 100%;
+  max-width: 100%;
+  padding: 0px;
+  margin: 0px;
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #fff;
   text-decoration: inherit;
 }
 a:hover {
@@ -26,6 +30,9 @@ body {
   padding: 0;
   display: flex;
   min-width: 320px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   min-height: 100vh;
 }
 

@@ -29,7 +29,7 @@ export default function FormDialog({open, setOpen, handleSubmit, total}) {
           },
         }}
       >
-        <DialogTitle>Confirm</DialogTitle>
+        <DialogTitle>Accept</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Are you ready to confirm your selections?
@@ -46,18 +46,46 @@ export default function FormDialog({open, setOpen, handleSubmit, total}) {
           <TextField
             required
             margin="dense"
-            id="name"
-            name="email"
-            label="Email Address"
-            type="email"
+            id="phone"
+            name="contact_number"
+            label="Contact Number"
+            type="phone"
             fullWidth
           />
           <TextField
+            required
             margin="dense"
-            id="name"
-            name="organization"
-            label="Organization: (Optional)"
+            id="company"
+            name="company"
+            label="Company"
             type="text"
+            fullWidth
+          />
+          <TextField
+            required
+            margin="dense"
+            id="ben"
+            name="billing_entity_name"
+            label="Billing Entity Name"
+            type="text"
+            fullWidth
+          />
+          <TextField
+            required
+            margin="dense"
+            id="bee"
+            name="billing_entity"
+            label="Billing Entity"
+            type="text"
+            fullWidth
+          />
+          <TextField
+            required
+            margin="dense"
+            id="bee"
+            name="billing_entity_email"
+            label="Billing Entity Email"
+            type="email"
             fullWidth
           />
           <DialogActions>

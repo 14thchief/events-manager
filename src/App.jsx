@@ -21,9 +21,9 @@ function App() {
 
   const acceptEvents = async (formJSON)=> {
     console.log({...formJSON, events: selectedEvents})
-    const result = await fetch(`https://api.aplbcevents.com:8080/events`, {
+    const result = await fetch(`https://api.aplbcevents.com:8080/acceptance`, {
       method: 'POST',
-      body: JSON.stringify({...formJSON, events: selectedEvents}),
+      body: JSON.stringify({...formJSON, events: selectedEvents?.map(x=> x.id)}),
     });
 
     const {data} = await result.json();
@@ -32,6 +32,7 @@ function App() {
   
   const acceptRef = useRef(null);
   const [month, setMonth] = useState("");
+  const [type, setType] = useState("");
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [selectedRegions, setSelectedRegion] = useState([]);
   const handleSelectRegion = (region) => {
@@ -49,9 +50,9 @@ function App() {
       if (prev.find(item=> item.event === data.event)) {
         return prev.filter(item=> item.event !== data.event);
       } 
-      acceptRef.current?.scrollIntoView({
-        behavior: 'smooth',
-      })
+      // acceptRef.current?.scrollIntoView({
+      //   behavior: 'smooth',
+      // })
 
       return [...prev, data];
     });
@@ -74,11 +75,13 @@ function App() {
       (!month || item.month === month) 
       && 
       (!selectedRegions.length || selectedRegions.includes(item.region))
+      &&
+      (!type.length || item.type.toLowerCase() === type.toLowerCase())
     )
   })
 
   return (
-    <div className="w-screen max-w-full h-screen">
+    <div className="w-full max-w-full">
       <div className='hero bg-blend-multiply bg-black bg-opacity-[0.3] h-[60vh] md:h-[99vh]'>
         <header className="lg:max-w-[1240px] mx-auto header-wrap bg-transparent text-white">
           <div className="header-wrap-inner flex items-center justify-between px-4 py-3 md:px-8">
@@ -182,7 +185,7 @@ function App() {
               <button
                 className="icon-button text-white"
                 aria-label="Close"
-                onClick={()=> setOpenMenu(true)}
+                onClick={()=> setOpenMenu(false)}
               >
                 <svg
                   className="h-6 w-6"
@@ -279,7 +282,7 @@ function App() {
         </p>
       </section>
 
-      <section className='lg:max-w-[1240px] mx-auto md:px-16 px-6 py-6 flex flex-col gap-6'>
+      <section className='lg:max-w-[1240px] mx-auto mb-10 md:px-16 px-6 py-6 flex flex-col gap-6'>
         <div className='flex items-center justify-between gap-4 flex-wrap-reverse'>
           <label className='flex flex-col gap-1'>
             Select Month
@@ -290,8 +293,20 @@ function App() {
             >
               <option value="">All</option>
               {mL.map((item, i)=> {
-
                 return <option  key={i} value={item}>{item}</option>
+              })}
+            </select>
+          </label>
+          <label className='flex flex-col gap-1'>
+            Select Event Type
+            <select 
+              className='w-[200px] p-2 rounded border'
+              value={type}
+              onChange={({target})=> setType(target.value)}
+            >
+              <option value="">All</option>
+              {["Participation", "Sponsorship"].map((item, i)=> {
+                return <option key={i} value={item}>{item}</option>
               })}
             </select>
           </label>
@@ -299,7 +314,7 @@ function App() {
             <h2 className='font-bold text-lg md:text-right'>
               Subtotal
               <br />
-              <span className='font-light'>£{total/100}.00</span>
+              <span className='font-light'>£{(total/100).toFixed(2)}</span>
             </h2>
           </div>
         </div>
@@ -327,26 +342,32 @@ function App() {
           </div>
           
           <div className='flex-1 flex flex-col items-end gap-4 max-w-max'>
-            <div 
-              className='flex items-center gap-4 w-full'
-              onClick={()=> {
-                if (selectedEvents.length === filteredEvents.length) {
-                  setSelectedEvents([]) 
-                } else {
-                  setSelectedEvents(filteredEvents);
-                  acceptRef.current?.scrollIntoView({
-                    behavior: 'smooth',
-                  });
-                } 
-              }}
-            >
+            <div className='flex items-center gap-4 lg:w-[700px] min-w-[100%]'>
               <div 
-                type="checkbox"
-                className={`rounded border h-5 w-5 ${selectedEvents.length === filteredEvents.length? 'bg-[#b49c4f]' : 'bg-gray-200'}`}
-              />
-              <h2 className='text-lg cursor-pointer'>Select All</h2>
+                className='flex items-center gap-4 w-full'
+                onClick={()=> {
+                  if (selectedEvents.length === filteredEvents.length) {
+                    setSelectedEvents([]) 
+                  } else {
+                    setSelectedEvents(filteredEvents);
+                    acceptRef.current?.scrollIntoView({
+                      behavior: 'smooth',
+                    });
+                  } 
+                }}
+              >
+                <div 
+                  type="checkbox"
+                  className={`rounded border h-5 w-5 ${selectedEvents.length === filteredEvents.length? 'bg-[#b49c4f]' : 'bg-gray-200'}`}
+                />
+                <h2 className='text-lg cursor-pointer'>Select All</h2>
+              </div>
+              {!!selectedEvents?.length &&
+              <button onClick={()=> setSelectedEvents([])} className='min-w-max text-[16px] text-white bg-red-500'>
+                Clear ({selectedEvents.length} selection{selectedEvents.length > 1? "s" : ""})
+              </button>}
             </div>
-            <div className='flex flex-col gap-4 max-h-[80vh] overflow-auto border-box'>
+            <div className='flex flex-col gap-4 max-h-[80vh] overflow-auto'>
             {filteredEvents.map((item, i) => {
               
               return (
@@ -368,52 +389,86 @@ function App() {
                         ? 'bg-[#b49c4f]' : 'bg-white'}
                       `}
                     />
-                    <p className='text-[#b49c4f] text-[15px] font-bold'>
-                    {mS[mL.findIndex((i)=> i.toLowerCase() == item.month.toLowerCase())] || "TBA"}
-                    <br />
-                    {mS[mL.findIndex((i)=> i.toLowerCase() == item.month.toLowerCase())] && (new Date(item.start_date)).getDay()+1} 
+                    <p className='text-[#b49c4f] uppercase text-[15px] font-bold'>
+                    <span>
+                      {mS[(new Date(item.start_date * 1000)).getMonth()]}
+                      <br />
+                      {(new Date(item.start_date * 1000)).getDate()}
+                    </span>
                     {item.end_date !== item.start_date? 
                     <span>
-                      - {(new Date(item.end_date)).getDay()+1}
+                      <span className='mx-[4px]'>-</span>
+                      {(new Date(item.end_date * 1000)).getDate()}
                       <br />
-                      {mS[(new Date(item.end_date)).getMonth()]}
+                      {mS[(new Date(item.end_date * 1000)).getMonth()]}
                     </span>
                     : ""}
                     </p>
                   </div>
-                  <div className='relative'>
-                    <p><strong>{item.event}</strong></p>
+                  <div className='relative w-full'>
+                    <p className='w-full flex justify-between items-center gap-2'>
+                      <strong>{item.event}</strong>
+                      <small className='capitalize'>{item.type}</small>
+                    </p>
                     <p><small>{item.segment}</small></p>
                     <p><small><strong>{item.city}</strong></small></p>
-                    <p className='relative bottom-0 mt-4'><strong>£{item.hotel_cost/100}.00</strong></p>
+                    <p className='relative bottom-0 mt-4'><strong>£{(item.hotel_cost/100).toFixed(2)}</strong></p>
                   </div>
                 </div>
               )
             })}
             </div>
+            <div className='flex justify-start w-full'>
+              <button 
+                ref={acceptRef}
+                className={`
+                  w-full md:w-[400px] md:h-[60px] float-left
+                  flex justify-between items-center gap-2 font-bold text-[20px]
+                  ${total? "bg-[#b49c4f]" : "bg-gray-200"}
+                `}
+                onClick={()=> {
+                  total?
+                  setOpen(true)
+                  : alert('You must select atleat one event to continue.')
+                }}
+                disabled={total === 0}
+              >
+                Accept
+                <span className='font-normal'>£{(total/100).toFixed(2)}</span>
+              </button>
+            </div>
           </div>
         </div>
-
-        <button 
-          ref={acceptRef}
-          className={`
-            w-full md:w-[400px] md:h-[60px] mx-auto
-            flex justify-between items-center gap-2 font-bold text-[20px]
-            ${total? "bg-[#b49c4f]" : "bg-gray-200"}
-          `}
-          onClick={()=> {
-            total?
-            setOpen(true)
-            : alert('You must select atleat one event to continue.')
-          }}
-          disabled={total === 0}
-        >
-          Accept
-          <span className='font-normal'>£{total/100}.00</span>
-        </button>
       </section>
 
-      <FormDialog total={`£${total/100}.00`} open={open} setOpen={setOpen} handleSubmit={acceptEvents} />
+      <FormDialog 
+        total={`£${(total/100).toFixed(2)}`} 
+        open={open} 
+        setOpen={setOpen} 
+        handleSubmit={acceptEvents} 
+      />
+
+
+      <footer className='bg-[#b49c4f] flex flex-col items-center text-white'>
+        <div className='flex flex-col items-center pt-6'>
+          <p>Have questions about an event?</p>
+          <p>
+            Contact us at {" "}
+            <a href="mailto:events@ap-lbc.com" className='!text-white underline'>
+              events@ap-lbc.com
+            </a>
+            {" "}for assistance.
+          </p>
+          <p>Our team is here to help.</p>
+        </div>
+        <p className='!font-light text-sm pt-2 pb-6'>Visit our website: {" "}
+          <a href="https://www.ap-lbc.com" className='!text-white !font-light cursor-pointer' target='_blank'>www.ap-lbc.com</a>
+        </p>
+        <div className='bg-white text-[#8e7c3f] flex justify-between items-center w-full px-4 md:px-12 py-2'>
+          <small>All rights reserved copyright 2024</small>
+          <small>Made by Starks IT</small>
+        </div>
+      </footer>
     </div>
   )
 }
