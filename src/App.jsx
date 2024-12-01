@@ -6,6 +6,7 @@ function App() {
   const [openMenu, setOpenMenu] = useState(false);
   const [open, setOpen] = useState(false);
   const [events, setEvents] = useState([]);
+  const [showSuccess, setShowSuccess] = useState(false);
   useEffect(()=> {
     getEvents()
   }, []);
@@ -16,18 +17,26 @@ function App() {
     });
 
     const {data} = await result.json();
+    data.sort((a,b)=> {
+      return a.start_date > b.start_date;
+    });
     setEvents(data);
   }
 
   const acceptEvents = async (formJSON)=> {
     console.log({...formJSON, events: selectedEvents})
-    const result = await fetch(`https://api.aplbcevents.com:8080/acceptance`, {
-      method: 'POST',
-      body: JSON.stringify({...formJSON, events: selectedEvents?.map(x=> x.id)}),
-    });
-
-    const {data} = await result.json();
-    console.log(data);
+    try {
+      const result = await fetch(`https://api.aplbcevents.com:8080/acceptance`, {
+        method: 'POST',
+        body: JSON.stringify({...formJSON, events: selectedEvents?.map(x=> x.id)}),
+      });
+  
+      const {data} = await result.json();
+      setSelectedEvents([]);
+      console.log({data})
+    } catch (error) {
+      console.error(error);
+    }
   }
   
   const acceptRef = useRef(null);
@@ -390,11 +399,14 @@ function App() {
                       `}
                     />
                     <p className='text-[#b49c4f] uppercase text-[15px] font-bold'>
-                    <span>
-                      {mS[(new Date(item.start_date * 1000)).getMonth()]}
-                      <br />
-                      {(new Date(item.start_date * 1000)).getDate()}
-                    </span>
+                    {item.start_date?
+                      <span>
+                        {mS[(new Date(item.start_date * 1000)).getMonth()]}
+                        <br />
+                        {(new Date(item.start_date * 1000)).getDate()}
+                      </span>
+                      : "TBA"
+                    }
                     {item.end_date !== item.start_date? 
                     <span>
                       <span className='mx-[4px]'>-</span>
