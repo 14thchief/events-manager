@@ -7,7 +7,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function FormDialog({open, setOpen, handleSubmit, total}) {
+export default function FormDialog({open, setOpen, error, setError, handleSubmit, total}) {
+  const [termsAgreed, setTermsAgreed] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -22,10 +23,14 @@ export default function FormDialog({open, setOpen, handleSubmit, total}) {
           component: 'form',
           onSubmit: (event) => {
             event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries(formData.entries());
-            handleSubmit(formJson)
-            handleClose();
+            console.log({termsAgreed})
+            if (termsAgreed) {
+              const formData = new FormData(event.currentTarget);
+              const formJson = Object.fromEntries(formData.entries());
+              handleSubmit(formJson)
+            } else {
+              setError("Please agree to the terms and conditions before submitting.")
+            }
           },
         }}
       >
@@ -88,14 +93,23 @@ export default function FormDialog({open, setOpen, handleSubmit, total}) {
             type="email"
             fullWidth
           />
+          {error && <small className='text-red-500 my-2'>{error}</small>}
+          <div className='flex items-center gap-4 my-4'>
+            <div 
+              type="checkbox" 
+              name={"terms"} 
+              onClick={()=> setTermsAgreed(prev=> !prev)}
+              className={`rounded border h-5 w-5 ${termsAgreed? 'bg-[#b49c4f]' : 'bg-gray-200'}`}
+            />
+            <p className='bg-gray-200 text-black p-4 flex-1'>I agree to the selected tradeshows/events. Invoice processing and communication will be facilitated by APLBC Accounting in a timely manner.</p>
+          </div>
           <DialogActions>
-          {/* <Button onClick={handleClose} className='!text-black'>Cancel</Button> */}
-          <Button 
-            type="submit" 
-            className={'!flex !gap-2 !items-center !bg-[#b49c4f] !text-white !mx-auto !max-w-max !w-[200px] !h-[50px]'}
-          >
-            Accept <span className='font-bold'>{total ?? ""}</span>
-          </Button>
+            <Button 
+              type="submit" 
+              className={'!flex !gap-2 !items-center !bg-[#b49c4f] !text-white !mx-auto !max-w-max !w-[200px] !h-[50px]'}
+            >
+              Accept <span className='font-bold'>{total ?? ""}</span>
+            </Button>
           </DialogActions>
         </DialogContent>
       </Dialog>

@@ -1,12 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import FormDialog from './components/Dialogue';
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
   const [openMenu, setOpenMenu] = useState(false);
   const [open, setOpen] = useState(false);
   const [events, setEvents] = useState([]);
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [error, setError] = useState("");
+  useEffect(()=> {
+    if (error.length) {
+      setTimeout(()=> {
+        setError("");
+      }, 5000)
+    }
+  }, [error]);
+
   useEffect(()=> {
     getEvents()
   }, []);
@@ -17,14 +26,15 @@ function App() {
     });
 
     const {data} = await result.json();
-    data.sort((a,b)=> {
-      return a.start_date > b.start_date;
+    const sortedData = data.sort((a,b)=> {
+      return a.start_date - b.start_date;
     });
-    setEvents(data);
+    setEvents(sortedData);
   }
 
   const acceptEvents = async (formJSON)=> {
     console.log({...formJSON, events: selectedEvents})
+    const loadingToast = toast.loading("Submitting request...");
     try {
       const result = await fetch(`https://api.aplbcevents.com:8080/acceptance`, {
         method: 'POST',
@@ -33,8 +43,12 @@ function App() {
   
       const {data} = await result.json();
       setSelectedEvents([]);
-      console.log({data})
+      toast.dismiss(loadingToast);
+      toast.success("Submitted Successfully");
+      setOpen(false);
     } catch (error) {
+      toast.dismiss(loadingToast);
+      setError("Submition not successful, Please try again");
       console.error(error);
     }
   }
@@ -457,9 +471,10 @@ function App() {
         total={`£${(total/100).toFixed(2)}`} 
         open={open} 
         setOpen={setOpen} 
+        error={error}
+        setError={setError}
         handleSubmit={acceptEvents} 
       />
-
 
       <footer className='bg-[#b49c4f] flex flex-col items-center text-white'>
         <div className='flex flex-col items-center pt-6'>
@@ -481,6 +496,8 @@ function App() {
           <small>Made by Starks IT</small>
         </div>
       </footer>
+
+      <Toaster />
     </div>
   )
 }
