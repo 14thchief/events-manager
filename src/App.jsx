@@ -362,6 +362,15 @@ function App() {
               </label>
             ))}
             </div>
+
+            <div className=' h-max'>
+              <strong>Selected Events</strong>
+              <ul className='list-disc list-inside'>
+              {selectedEvents?.map(({event}, i) => (
+                <li key={i}><small >{event}</small></li>
+              ))}
+              </ul>
+            </div>
           </div>
           
           <div className='flex-1 flex flex-col items-end gap-4 max-w-max'>
@@ -444,7 +453,7 @@ function App() {
               )
             })}
             </div>
-            <div className='flex justify-start w-full'>
+            <div className='mt-10 flex justify-start w-full'>
               <button 
                 ref={acceptRef}
                 className={`
