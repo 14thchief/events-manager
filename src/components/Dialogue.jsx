@@ -79,8 +79,8 @@ export default function FormDialog({open, setOpen, error, setError, handleSubmit
             required
             margin="dense"
             id="bee"
-            name="billing_entity"
-            label="Billing Entity"
+            name="billing_entity_address"
+            label="Billing Entity Address"
             type="text"
             fullWidth
           />
@@ -101,7 +101,8 @@ export default function FormDialog({open, setOpen, error, setError, handleSubmit
               onClick={()=> setTermsAgreed(prev=> !prev)}
               className={`rounded border h-5 w-5 ${termsAgreed? 'bg-[#b49c4f]' : 'bg-gray-200'}`}
             />
-            <p className='bg-gray-200 text-black p-4 flex-1'>I agree to the selected tradeshows/events. Invoice processing and communication will be facilitated by APLBC Accounting in a timely manner.</p>
+            <p className='bg-gray-200 text-black p-4 flex-1'>By selecting a hospitality event, you acknowledge and agree that payment will be invoiced in GBP and is due within 15 days of receipt. Payments are non-refundable unless the event is cancelled by the organizer. For more information on how we handle your data, please review our Privacy Policy.
+            </p>
           </div>
           <DialogActions>
             <Button 
