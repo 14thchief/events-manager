@@ -10,6 +10,7 @@ import AccordionComponent from "./Accordion";
 import AccordionUI from "./AccordionUI";
 
 const fields = [
+  { name: "Potential Clients", key: "potential_clients" },
   { name: "Hotel Benefits", key: "hotel_benefits" },
   { name: "Execution Plan", key: "execution_plan" },
   { name: "Investment ROI", key: "investment_roi" },
