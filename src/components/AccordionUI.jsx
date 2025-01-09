@@ -65,7 +65,7 @@ export default function AccordionUI({ title, content, expanded, onExpanded }) {
           <Typography component="span">{title}:</Typography>
         </StyledAccordionSummary>
         <StyledAccordionDetails>
-          <Typography className="!text-sm !font-light !p-0">
+          <Typography className="!whitespace-pre-wrap !text-sm !font-light !p-0">
             {content}
           </Typography>
         </StyledAccordionDetails>
