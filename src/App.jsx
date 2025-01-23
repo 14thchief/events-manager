@@ -374,7 +374,7 @@ function App() {
               onChange={({ target }) => setType(target.value)}
             >
               <option value="">All</option>
-              {["Participation", "Sponsorship"].map((item, i) => {
+              {["APLBC representation", "Hotel attendance"].map((item, i) => {
                 return (
                   <option key={i} value={item}>
                     {item}
