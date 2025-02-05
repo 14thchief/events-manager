@@ -66,7 +66,9 @@ export default function InfoModal({
               {!!data?.overview && (
                 <div className="space-y-2">
                   <DialogContentText>Overview:</DialogContentText>
-                  <DialogContentText>{data?.overview}</DialogContentText>
+                  <DialogContentText className="!whitespace-pre-wrap">
+                    {data?.overview}
+                  </DialogContentText>
                 </div>
               )}
               {data?.overview && data?.objectives && <hr />}
