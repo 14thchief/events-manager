@@ -470,9 +470,10 @@ function App() {
                   <div
                     key={i}
                     className={`
-                    flex bg-gray-200 p-4 lg:w-[700px] max-w-[100%] h-max min-h-[160px] overflow-auto
+                    flex bg-gray-200 p-4 lg:w-[700px] max-w-[100%] h-max min-h-[160px]
                     cursor-pointer active:scale-[101%]
                   `}
+                    style={{ height: "max-content" }}
                     onClick={() => handleSelectEvent(item)}
                   >
                     <div className="flex flex-col gap-4 basis-[100px]">
@@ -510,7 +511,7 @@ function App() {
                         )}
                       </p>
                     </div>
-                    <div className="relative w-full !min-h-max">
+                    <div className="relative w-full">
                       <p className="w-full flex justify-between items-center gap-2">
                         <strong>{item.event}</strong>
                         <small className="capitalize">{item.type}</small>
