@@ -510,7 +510,7 @@ function App() {
                         )}
                       </p>
                     </div>
-                    <div className="relative w-full">
+                    <div className="relative w-full h-max">
                       <p className="w-full flex justify-between items-center gap-2">
                         <strong>{item.event}</strong>
                         <small className="capitalize">{item.type}</small>
