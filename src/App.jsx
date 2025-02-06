@@ -470,7 +470,7 @@ function App() {
                   <div
                     key={i}
                     className={`
-                    flex bg-gray-200 p-4 lg:w-[700px] max-w-[100%] min-h-max overflow-auto
+                    flex bg-gray-200 p-4 lg:w-[700px] max-w-[100%] h-max min-h-[160px] overflow-auto
                     cursor-pointer active:scale-[101%]
                   `}
                     onClick={() => handleSelectEvent(item)}
