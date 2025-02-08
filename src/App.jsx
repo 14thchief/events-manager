@@ -470,24 +470,23 @@ function App() {
                   <div
                     key={i}
                     className={`
-                    flex bg-gray-200 p-4 lg:w-[700px] max-w-[100%] h-max min-h-[160px]
-                    cursor-pointer active:scale-[101%]
-                  `}
-                    style={{ height: "max-content" }}
+                      flex gap-4 bg-gray-200 p-4 lg:w-[700px] max-w-[100%] min-h-[160px] h-auto
+                      cursor-pointer
+                    `}
                     onClick={() => handleSelectEvent(item)}
                   >
-                    <div className="flex flex-col gap-4 basis-[100px]">
+                    <div className="flex flex-col gap-4 basis-auto">
                       <div
                         type="checkbox"
                         name={item}
                         className={`
-                        rounded border h-5 w-5 
-                        ${
-                          selectedEvents?.find((i) => i.event === item.event)
-                            ? "bg-[#b49c4f]"
-                            : "bg-white"
-                        }
-                      `}
+                          rounded border h-5 w-5 
+                          ${
+                            selectedEvents?.find((i) => i.event === item.event)
+                              ? "bg-[#b49c4f]"
+                              : "bg-white"
+                          }
+                        `}
                       />
                       <p className="text-[#b49c4f] uppercase text-[15px] font-bold">
                         {item.start_date ? (
@@ -499,19 +498,18 @@ function App() {
                         ) : (
                           "TBA"
                         )}
-                        {item.end_date !== item.start_date ? (
+                        {item.end_date !== item.start_date && (
                           <span>
                             <span className="mx-[4px]">-</span>
                             {new Date(item.end_date * 1000).getDate()}
                             <br />
                             {mS[new Date(item.end_date * 1000).getMonth()]}
                           </span>
-                        ) : (
-                          ""
                         )}
                       </p>
                     </div>
-                    <div className="relative w-full">
+
+                    <div className="w-full">
                       <p className="w-full flex justify-between items-center gap-2">
                         <strong>{item.event}</strong>
                         <small className="capitalize">{item.type}</small>
@@ -524,7 +522,7 @@ function App() {
                           <strong>{item.city}</strong>
                         </small>
                       </p>
-                      <div className="relative bottom-0 mt-4 flex justify-between items-center w-full">
+                      <div className="mt-4 flex justify-between items-center w-full">
                         <strong>£{(item.hotel_cost / 100).toFixed(2)}</strong>
                         {(!!item.overview || !!item.objectives) && (
                           <button
