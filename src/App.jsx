@@ -517,6 +517,7 @@ function App() {
                         </small>
                       </p>
                       <small className={`!min-h-max`}>{item.segment}</small>
+                      <br />
                       <small className={`!min-h-max`}>
                         <strong className={`!min-h-max`}>{item.city}</strong>
                       </small>
