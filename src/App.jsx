@@ -470,7 +470,7 @@ function App() {
                   <div
                     key={i}
                     className={`
-                      flex gap-4 bg-gray-200 p-4 lg:w-[700px] max-w-[100%] min-h-[160px] h-auto
+                      flex gap-4 bg-gray-200 p-4 lg:w-[700px] max-w-[100%] min-h-[200px] h-auto
                       cursor-pointer
                     `}
                     onClick={() => handleSelectEvent(item)}
