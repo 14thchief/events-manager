@@ -470,8 +470,8 @@ function App() {
                   <div
                     key={i}
                     className={`
-                      flex gap-4 bg-gray-200 p-4 lg:w-[700px] max-w-[100%] min-h-[200px] h-auto
-                      max-h-max cursor-pointer
+                      flex gap-4 bg-gray-200 p-4 lg:w-[700px] max-w-[100%] h-auto !min-h-max
+                      cursor-pointer
                     `}
                     onClick={() => handleSelectEvent(item)}
                   >
@@ -509,20 +509,18 @@ function App() {
                       </p>
                     </div>
 
-                    <div className="w-full">
-                      <p className="w-full flex justify-between items-center gap-2">
-                        <strong>{item.event}</strong>
-                        <small className="capitalize">{item.type}</small>
-                      </p>
-                      <p>
-                        <small>{item.segment}</small>
-                      </p>
-                      <p>
-                        <small>
-                          <strong>{item.city}</strong>
+                    <div className="w-full !min-h-max">
+                      <p className="w-full flex justify-between items-center gap-2 !min-h-max">
+                        <strong className={`!min-h-max`}>{item.event}</strong>
+                        <small className="capitalize !min-h-max">
+                          {item.type}
                         </small>
                       </p>
-                      <div className="mt-4 flex justify-between items-center w-full">
+                      <small className={`!min-h-max`}>{item.segment}</small>
+                      <small className={`!min-h-max`}>
+                        <strong className={`!min-h-max`}>{item.city}</strong>
+                      </small>
+                      <div className="mt-4 flex justify-between items-center w-full !min-h-max">
                         <strong>£{(item.hotel_cost / 100).toFixed(2)}</strong>
                         {(!!item.overview || !!item.objectives) && (
                           <button
