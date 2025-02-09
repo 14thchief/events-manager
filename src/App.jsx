@@ -3,6 +3,7 @@ import "./App.css";
 import FormDialog from "./components/Dialogue";
 import toast, { Toaster } from "react-hot-toast";
 import InfoModal from "./components/InfoModal";
+import { mL, mS } from "./constants";
 
 function App() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -91,42 +92,6 @@ function App() {
   const total = selectedEvents
     ?.map((x) => x.hotel_cost)
     ?.reduce((a, b) => a + b, 0);
-
-  const navList = [
-    {
-      title: "About Us",
-      url: "/about-us",
-    },
-  ];
-
-  const mL = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const mS = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "June",
-    "July",
-    "Aug",
-    "Sept",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
 
   const filteredEvents = events?.filter((item) => {
     return (
