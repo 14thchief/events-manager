@@ -99,7 +99,7 @@ export default function InfoModal({
               <DialogActions>
                 <Button
                   onClick={(e) => {
-                    onAccept(data);
+                    isAccepted ? onAccept(data.event) : onAccept(data);
                     setOpen(false);
                   }}
                   type="submit"

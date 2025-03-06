@@ -6,11 +6,6 @@
   max-width: 100%;
 }
 
-.hero {
-  background-image: url("./assets/hero-image.jpg");
-  background-size: cover;
-}
-
 /* select option:hover, select option:checked {
   box-shadow: 0 0 10px 100px #b49c4f inset;
 } */

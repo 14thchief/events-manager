@@ -28,7 +28,6 @@ a:hover {
 body {
   margin: 0;
   padding: 0;
-  display: flex;
   min-width: 320px;
   width: 100%;
   max-width: 100%;

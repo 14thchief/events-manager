@@ -123,7 +123,7 @@ export default function FormDialog({
             <Button
               type="submit"
               className={
-                "!flex !gap-2 !items-center !bg-[#b49c4f] !text-white !mx-auto !max-w-max !w-[200px] !h-[50px]"
+                "!flex !gap-2 !items-center !bg-[#b49c4f] !text-white !mx-auto !w-[200px] !min-w-full !h-[50px]"
               }
             >
               Accept <span className="font-bold">{total ?? ""}</span>
