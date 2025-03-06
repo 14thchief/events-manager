@@ -9,7 +9,7 @@ import {
 const useClickOutside = () => {
   const [open, setOpen] = useState(false);
 
-  const dropdownRef = useRef < HTMLElement > null;
+  const dropdownRef = useRef(null);
 
   // const dropdownListRef = useRef<MutableRefObject<HTMLElement>[]>([]);
 

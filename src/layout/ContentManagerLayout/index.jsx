@@ -1,8 +1,8 @@
+import "./styles.scss";
 import { Outlet, useLocation, useOutletContext } from "react-router";
 import Sidebar from "./Sidebar";
 import { BiMenu } from "react-icons/bi";
 import { Home } from "../../assets/icons/icons";
-import { useDispatch, useSelector } from "react-redux";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { capitalize } from "lodash";
 import useClickOutside from "../../hooks/useClickOutside";

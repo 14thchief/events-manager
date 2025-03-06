@@ -1,4 +1,4 @@
-import authApi from "src/redux/api/authApi";
+import authApi from "../../api/authApi";
 import {
   ResetPasswordPayload,
   SignedUser,
@@ -8,7 +8,7 @@ import {
 
 const loginSlice = authApi.injectEndpoints({
   endpoints: (builder) => ({
-    signIn: builder.mutation<SignedUser, SigninPayload>({
+    login: builder.mutation<SignedUser, SigninPayload>({
       query: (data) => ({
         url: "regulators/login",
         method: "POST",
@@ -65,7 +65,7 @@ const loginSlice = authApi.injectEndpoints({
 });
 
 export const {
-  useSignInMutation,
+  useLoginMutation,
   useSendResetLinkMutation,
   useResetPasswordMutation,
   useSavePasswordMutation,

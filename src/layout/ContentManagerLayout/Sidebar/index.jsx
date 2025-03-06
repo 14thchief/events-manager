@@ -1,7 +1,7 @@
 import styles from "./_styles.module.scss";
 import { Link, useLocation, useNavigate } from "react-router";
 import { sidebarData } from "./data";
-import { Dispatch, RefObject, SetStateAction, useEffect } from "react";
+import React, { Dispatch, RefObject, SetStateAction, useEffect } from "react";
 import { BiX } from "react-icons/bi";
 import useGetWindowDimension from "../../../hooks/useGetWindowDimension";
 import { Logout, UserAvatar } from "../../../assets/icons/icons";
@@ -9,9 +9,8 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/features/auth/util/logoutSlice";
 import usePersistentAuth from "../../../hooks/usePersistentAuth";
 import { openActionModal } from "../../../redux/features/util/actionModalSlice";
-import { highlightBusiness } from "../../../redux/features/admin/util/businessSlice";
 
-const Sidebar = (props) => {
+const Sidebar = React.forwardRef((props, ref) => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -35,9 +34,6 @@ const Sidebar = (props) => {
     navigate(path);
     sessionStorage.setItem("last_path", path);
     props.setOpen(false);
-
-    // Reset Global states
-    dispatch(highlightBusiness(null));
   };
 
   const handleLogout = () => {
@@ -123,5 +119,5 @@ const Sidebar = (props) => {
       ></div>
     </div>
   );
-};
+});
 export default Sidebar;

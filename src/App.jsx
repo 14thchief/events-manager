@@ -24,15 +24,15 @@ const App = () => {
         <Route>
           <Route path="/" element={<Navigate to={"/web-portal"} />} />
         </Route>
+        <Route path="/web-portal" element={<WebPortalLayout />} />
         <Route element={<AuthLayout />}>
           <Route path="/auth/*" element={<AuthRoutes />} />
         </Route>
-        {/* <Route element={<ProtectedRoutes />}> */}
-        <Route element={<ContentManagementRoutes />}>
-          <Route path="/cms/*" element={<ContentManagementRoutes />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route element={<ContentManagementLayout />}>
+            <Route path="/cms/*" element={<ContentManagementRoutes />} />
+          </Route>
         </Route>
-        {/* </Route> */}
-        <Route path="/web-portal" element={<WebPortalLayout />} />
       </Route>
     </Routes>
   );

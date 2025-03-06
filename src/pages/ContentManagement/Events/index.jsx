@@ -1,5 +1,7 @@
+import Table from "../../../components/Table";
+
 const Events = () => {
-  return <div>EVents oooooo</div>;
+  return <div>{/* <Table /> */}</div>;
 };
 
 export default Events;
