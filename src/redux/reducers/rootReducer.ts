@@ -2,10 +2,10 @@ import { Action, combineReducers } from "@reduxjs/toolkit";
 import actionModalSlice from "../features/util/actionModalSlice";
 import baseApi from "../api/baseApi";
 import authApi from "../api/authApi";
-import adminApi from "../api/adminApi";
+import cmsApi from "../api/cmsApi";
 import logoutSlice, { logout } from "../features/auth/util/logoutSlice";
-import businessSlice from "../features/admin/util/businessSlice";
-import environmentSlice from "../features/admin/util/environmentSlice";
+import eventSlice from "../features/cms/util/eventSlice";
+import environmentSlice from "../features/cms/util/environmentSlice";
 
 // Define the RootState type based on the combined reducer
 type RootState = ReturnType<typeof appReducer>;
@@ -17,8 +17,8 @@ const appReducer = combineReducers({
   actionModal: actionModalSlice.reducer,
   [baseApi.reducerPath]: baseApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
-  [adminApi.reducerPath]: adminApi.reducer,
-  business: businessSlice,
+  [cmsApi.reducerPath]: cmsApi.reducer,
+  event: eventSlice,
   logout: logoutSlice,
   env: environmentSlice,
 });

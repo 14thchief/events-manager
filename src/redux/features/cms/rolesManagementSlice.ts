@@ -1,7 +1,7 @@
-import adminApi, { ALL_TAGS } from "src/redux/api/adminApi";
+import cmsApi, { ALL_TAGS } from "src/redux/api/cmsApi";
 import { Permission, Role } from "./types/roleManagementType";
 
-const roleManagement = adminApi.injectEndpoints({
+const roleManagement = cmsApi.injectEndpoints({
   endpoints: (builder) => ({
     createRoles: builder.mutation<
       any,
@@ -59,7 +59,7 @@ const roleManagement = adminApi.injectEndpoints({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          dispatch(adminApi.util.invalidateTags(ALL_TAGS));
+          dispatch(cmsApi.util.invalidateTags(ALL_TAGS));
         } catch (error) {
           console.error("Failed to fetch permissions", error);
         }

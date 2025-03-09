@@ -1,3 +1,5 @@
+@import "variables";
+
 %button {
   width: rem(305px);
   height: rem(64px);
@@ -5,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(95.67deg, #007cc2 49.79%, #73de63 151.76%);
+  background: $color-primary;
   color: white;
   font-size: rem(18px);
   font-weight: 400;

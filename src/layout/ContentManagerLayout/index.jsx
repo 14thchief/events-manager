@@ -20,7 +20,7 @@ const ContentManagementLayout = () => {
       <main>
         <div className={"navHeader"}>
           <div className={"breadCrumb"}>
-            <button className={"mobileToggleButton"}>
+            <button className={"mobileToggleButton bg-white"}>
               <BiMenu size={28} onClick={() => setOpen((prev) => !prev)} />
             </button>
 
@@ -28,7 +28,7 @@ const ContentManagementLayout = () => {
               <Home size={16} />
               {slicedPath?.map((item, key) => {
                 return (
-                  <span key={key}>
+                  <span key={key} className="flex items-center gap-2">
                     {capitalize(item)}
                     {key !== slicedPath?.length - 1 && <MdKeyboardArrowRight />}
                   </span>
@@ -37,7 +37,7 @@ const ContentManagementLayout = () => {
             </p>
           </div>
         </div>
-        <div className={``}>
+        <div className={`px-6 py-4`}>
           <Outlet context={contextValue} />
         </div>
       </main>

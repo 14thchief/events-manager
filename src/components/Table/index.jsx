@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   useReactTable,
   flexRender,
@@ -26,9 +26,41 @@ const Table = ({
   headerTitle,
   tableProps,
   countText,
+  selectable = false, // Enable row selection when true
+  onSelectionChange, // Custom on-change handler receiving array of selected row values
 }) => {
   const tableData = useMemo(() => data, [data]);
-  const tableColumns = useMemo(() => columns, [columns]);
+  const baseColumns = useMemo(() => columns, [columns]);
+
+  // If selectable, prepend a column for selection checkboxes.
+  const finalColumns = useMemo(() => {
+    if (selectable) {
+      const selectionColumn = {
+        id: "select",
+        enableSorting: false, // Disable sorting on the selection column.
+        header: ({ table }) => (
+          <input
+            type="checkbox"
+            onChange={table.getToggleAllRowsSelectedHandler()}
+            checked={table.getIsAllRowsSelected()}
+            // Use header-checkbox class to adjust size/alignment.
+            className={`${styles["checkbox-custom"]} header-checkbox`}
+          />
+        ),
+        cell: ({ row }) => (
+          <input
+            type="checkbox"
+            onChange={row.getToggleSelectedHandler()}
+            checked={row.getIsSelected()}
+            className={`${styles["checkbox-custom"]}`}
+          />
+        ),
+        size: 40,
+      };
+      return [selectionColumn, ...baseColumns];
+    }
+    return baseColumns;
+  }, [selectable, baseColumns]);
 
   const {
     search,
@@ -41,17 +73,21 @@ const Table = ({
   } = tableProps || {};
 
   const [sorting, setSorting] = useState([]);
+  // Manage row selection state only if selectable.
+  const [rowSelection, setRowSelection] = useState({});
 
   const tableState = columnFilter
     ? {
         sorting,
         columnFilters: columnFilter || [],
         columnVisibility,
+        ...(selectable && { rowSelection }),
       }
     : {
         sorting,
         globalFilter: search,
         columnVisibility,
+        ...(selectable && { rowSelection }),
       };
 
   const totalData =
@@ -60,16 +96,33 @@ const Table = ({
   const tableInstance = useReactTable({
     data: tableData,
     columns: useHeader
-      ? getColumnsWithHeader({ columns, totalData, headerTitle, countText })
-      : tableColumns,
+      ? getColumnsWithHeader({
+          columns: finalColumns,
+          totalData,
+          headerTitle,
+          countText,
+        })
+      : finalColumns,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: isPaginated === "server",
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onSortingChange: setSorting,
+    // Only handle row selection changes when selectable is enabled.
+    onRowSelectionChange: selectable ? setRowSelection : undefined,
     state: tableState,
   });
+
+  // Report overall selected rows via onSelectionChange.
+  useEffect(() => {
+    if (selectable && onSelectionChange) {
+      const selectedRows = tableInstance
+        .getSelectedRowModel()
+        .rows.map((row) => row.original);
+      onSelectionChange(selectedRows);
+    }
+  }, [rowSelection, tableInstance, selectable, onSelectionChange]);
 
   const {
     getHeaderGroups,
@@ -81,7 +134,6 @@ const Table = ({
     setPageIndex,
     setPageSize,
     getPageCount,
-    // getPageOptions,
     getState,
   } = tableInstance;
 
@@ -166,27 +218,20 @@ const Table = ({
             </thead>
             {isDataAvailable && (
               <tbody>
-                {getRowModel().rows.map((rowEl) => {
-                  return (
-                    <tr key={rowEl.id} className={styles.body_row}>
-                      {rowEl.getVisibleCells().map((cellEl) => {
-                        return (
-                          <td
-                            key={cellEl.id}
-                            className={styles[cellEl.column.id]}
-                          >
-                            <span>
-                              {flexRender(
-                                cellEl.column.columnDef.cell,
-                                cellEl.getContext()
-                              )}
-                            </span>
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  );
-                })}
+                {getRowModel().rows.map((rowEl) => (
+                  <tr key={rowEl.id} className={styles.body_row}>
+                    {rowEl.getVisibleCells().map((cellEl) => (
+                      <td key={cellEl.id} className={styles[cellEl.column.id]}>
+                        <span>
+                          {flexRender(
+                            cellEl.column.columnDef.cell,
+                            cellEl.getContext()
+                          )}
+                        </span>
+                      </td>
+                    ))}
+                  </tr>
+                ))}
               </tbody>
             )}
           </table>

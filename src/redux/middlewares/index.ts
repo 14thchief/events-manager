@@ -1,9 +1,9 @@
 import authApi from "../api/authApi";
 import baseApi from "../api/baseApi";
-import adminApi from "../api/adminApi";
+import cmsApi from "../api/cmsApi";
 
 export const combineMiddlewares = [
   baseApi.middleware,
   authApi.middleware,
-  adminApi.middleware,
+  cmsApi.middleware,
 ];

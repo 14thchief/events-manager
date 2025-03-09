@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import adminApi from "../../../api/adminApi";
+import cmsApi from "../../../api/cmsApi";
 import clearStore from "../../../../utilities/clearStore";
 
 const initialState = {};
@@ -10,7 +10,7 @@ const logoutSlice = createSlice({
   reducers: {
     logout: () => {
       clearStore();
-      adminApi.util.resetApiState();
+      cmsApi.util.resetApiState();
     },
   },
 });

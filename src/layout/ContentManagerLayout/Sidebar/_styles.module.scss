@@ -11,7 +11,8 @@
   gap: 80px;
   overflow-y: scroll;
   height: 100%;
-  padding: rem(24px) rem(10px) rem(16px) rem(16px);
+  padding: rem(24px) rem(0px) rem(16px) rem(16px);
+  background-color: $color-primary;
   border-right: #f1f1f1 solid 1px;
   transition: 0.2s cubic-bezier(0.36, -0.01, 0, 0.77), heignt 0.5s ease-in-out;
 
@@ -29,7 +30,7 @@
     max-width: 272px;
     z-index: 999;
     background-color: #fff;
-    padding: rem(24px) rem(10px) rem(16px) rem(10px);
+    padding: rem(24px) rem(0px) rem(16px) rem(10px);
 
     .logoContainer {
       display: flex;
@@ -104,9 +105,9 @@
       }
 
       .active {
-        background-color: #f3f9ff;
-        color: darken($color-primary, 4%);
-        border-right: 5px solid $color-primary;
+        color: #fff;
+        border-right: 5px solid darken($color-primary, 20%);
+        font-weight: 700;
       }
     }
   }

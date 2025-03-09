@@ -1,6 +1,4 @@
-import { ReactNode } from "react";
-import { ButtonHTMLAttributes } from "react";
-import { svgs } from "src/assets";
+import { svgs } from "../../assets";
 import styles from "./_styles.module.scss";
 
 const Button = ({

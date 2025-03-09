@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import { EllipsesVertical as ActionIcon } from "src/assets/icons/icons";
-import useClickOutside from "src/hooks/useClickOutside";
+import { useEffect, useRef } from "react";
+import { EllipsesVertical as ActionIcon } from "../../../assets/icons/icons";
+import useClickOutside from "../../../hooks/useClickOutside";
 import styles from "./_styles.module.scss";
-import Button from "components/Core/Button";
+import Button from "../../../components/Button";
 
 const TableDropdownActions = ({ actions }) => {
   const { open, setOpen, dropdownRef } = useClickOutside();
