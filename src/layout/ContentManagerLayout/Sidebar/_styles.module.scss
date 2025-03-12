@@ -257,7 +257,7 @@
     @include flex(row, 0.5rem, center);
     padding: 0 !important;
     gap: 0.5rem !important;
-    color: $color-text;
+    color: #fff;
     width: 80%;
 
     &:hover {
@@ -271,13 +271,14 @@
 
   .logout {
     margin-left: auto;
+    margin-right: 10px;
     cursor: pointer;
     transition: 0.3s linear;
     min-width: max-content;
+    color: #fff;
 
     &:hover {
       transform: scale(1.1);
-      color: $color-primary;
       transition: 0.3s linear;
     }
   }

@@ -1,6 +1,3 @@
-// ./components/Header.jsx
-import React from "react";
-
 function Header({ openMenu, setOpenMenu }) {
   return (
     <div className="hero bg-blend-multiply bg-black bg-opacity-[0.3] h-[60vh] md:h-[99vh]">
@@ -98,7 +95,7 @@ function Header({ openMenu, setOpenMenu }) {
               Explore our properties
             </a>
             <a
-              href="/auth/login"
+              href="/auth/cms"
               className="button btn-signin bg-transparent border border-white text-white hover:text-gray-400 px-4 py-3 rounded transition"
             >
               Sign In
@@ -167,7 +164,7 @@ function Header({ openMenu, setOpenMenu }) {
               Contact Us
             </a>
             <a
-              href="/auth/login"
+              href="/auth/cms"
               className="block text-lg !text-white hover:text-gray-400 font-bold transition"
             >
               Sign In

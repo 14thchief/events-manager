@@ -5,7 +5,7 @@ const ProtectedRoutes = () => {
   const location = useLocation();
 
   const currentPath = location.pathname;
-  const isLoggedIn = true || !!localStorage.getItem("token");
+  const isLoggedIn = !!localStorage.getItem("token");
 
   const pathAccess = sidebarData.topRoutes
     .concat(sidebarData.bottomRoutes)
@@ -13,10 +13,10 @@ const ProtectedRoutes = () => {
 
   const permitted = pathAccess === "*";
 
-  return isLoggedIn ? (
+  return isLoggedIn && permitted ? (
     <Outlet />
   ) : (
-    <Navigate to={"/auth/login"} state={{ from: currentPath }} replace />
+    <Navigate to={"/auth/cms"} state={{ from: currentPath }} replace />
   );
 };
 

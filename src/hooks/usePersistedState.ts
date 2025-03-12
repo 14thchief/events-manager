@@ -11,7 +11,9 @@ const usePersistedState = <T>({
     if (typeof window !== "undefined") {
       const jsonValue = localStorage.getItem(storageKey);
 
-      if (jsonValue != null) return JSON.parse(jsonValue);
+      if (jsonValue) {
+        return JSON.parse(jsonValue);
+      }
     }
     if (typeof defaultValue === "function") {
       return defaultValue as () => T;
@@ -20,9 +22,7 @@ const usePersistedState = <T>({
     }
   });
 
-  useEffect(()=> {
-    
-  }, [value])
+  useEffect(() => {}, [value]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {

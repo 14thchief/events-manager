@@ -1,7 +1,7 @@
 import styles from "./_styles.module.scss";
 import { Link, useLocation, useNavigate } from "react-router";
 import { sidebarData } from "./data";
-import React, { Dispatch, RefObject, SetStateAction, useEffect } from "react";
+import { useEffect } from "react";
 import { BiX } from "react-icons/bi";
 import useGetWindowDimension from "../../../hooks/useGetWindowDimension";
 import { Logout, UserAvatar } from "../../../assets/icons/icons";
@@ -10,7 +10,7 @@ import { logout } from "../../../redux/features/auth/util/logoutSlice";
 import usePersistentAuth from "../../../hooks/usePersistentAuth";
 import { openActionModal } from "../../../redux/features/util/actionModalSlice";
 
-const Sidebar = React.forwardRef((props, ref) => {
+const Sidebar = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ const Sidebar = React.forwardRef((props, ref) => {
         content: `Are you sure you want to Logout of this session?`,
         callback: () => {
           dispatch(logout());
-          navigate("/auth/login");
+          navigate("/auth/cms");
         },
         callbackText: "Logout",
         cancelText: "Cancel",
@@ -100,7 +100,7 @@ const Sidebar = React.forwardRef((props, ref) => {
             <div className={styles.user_link}>
               <UserAvatar size={32} className={styles.profileIcon} />
               <div className={styles.username}>
-                <p className={styles.email}>{sessionUser?.email ?? ""}</p>
+                <p className={styles.email}>{sessionUser?.user?.email ?? ""}</p>
               </div>
             </div>
 
@@ -119,5 +119,5 @@ const Sidebar = React.forwardRef((props, ref) => {
       ></div>
     </div>
   );
-});
+};
 export default Sidebar;

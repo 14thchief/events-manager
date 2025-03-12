@@ -1,12 +1,11 @@
-import { lazy } from "react";
 import { Route, Routes, Navigate } from "react-router";
-import Login from "../pages/Auth/Login";
+import CMSPortal from "../pages/Auth/CMSPortal";
 
 const AuthRoutes = () => {
   return (
     <Routes>
-      <Route index element={<Navigate to="login" replace />} />
-      <Route path="login" element={<Login />} />
+      <Route index element={<Navigate to="cms" replace />} />
+      <Route path="cms" element={<CMSPortal />} />
     </Routes>
   );
 };
