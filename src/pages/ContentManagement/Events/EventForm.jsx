@@ -144,7 +144,7 @@ const EventForm = () => {
             />
             <button
               type="submit"
-              className="bg-yellow-600 text-white w-[90%] px-6 py-2 rounded-lg justify-self-end absolute bottom-4"
+              className="bg-[#B29B4E] text-white w-[90%] px-6 py-2 rounded-lg justify-self-end absolute bottom-4"
             >
               {isEditing ? "Save Event" : "Add Event"}
             </button>
