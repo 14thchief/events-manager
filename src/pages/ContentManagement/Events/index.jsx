@@ -20,14 +20,20 @@ const Events = () => {
     {
       header: "Event Name",
       accessorKey: "event",
-      cell: ({ getValue }) => (
+      cell: ({ row, getValue }) => (
         <div
           onClick={() => {
             // dispatch(highlightEvent(row.original));
-            navigate(`/cms/events/${getValue()}`);
+            navigate(`/cms/events/${getValue()}`, {
+              state: {
+                event: row.original,
+              },
+            });
           }}
         >
-          <p className={``}>{getValue()}</p>
+          <p className={`cursor-pointer text-[#483e1f] hover:underline`}>
+            {getValue()}
+          </p>
         </div>
       ),
       enableSorting: false,
@@ -79,8 +85,8 @@ const Events = () => {
       header: "Status",
       accessorKey: "status",
       cell: ({ getValue }) => (
-        <StatusBadge textOnly status={getValue()?.toLowerCase() || "inactive"}>
-          {getValue() || "Inactive"}
+        <StatusBadge textOnly status={getValue()?.toLowerCase() || "active"}>
+          {getValue() || "Active"}
         </StatusBadge>
       ),
       enableSorting: false,
@@ -105,27 +111,27 @@ const Events = () => {
           <TableDropdownActions
             actions={[
               {
-                label: "View",
-                icon: <Eye size={18} />,
                 customComponent: (
-                  <p className="flex items-center gap-2 p-2">
+                  <p
+                    onClick={() => {
+                      navigate(`/cms/events/${row.original.event}`, {
+                        state: {
+                          event: row.original,
+                        },
+                      });
+                    }}
+                    className="cursor-pointer hover:bg-gray-50 transition transition-bg flex items-center gap-2 p-2"
+                  >
                     <Eye size={18} />
                     View
                   </p>
                 ),
-                onClick: () => {
-                  navigate(`/cms/events/${row.original.event}`, {
-                    state: {
-                      event: row.original,
-                    },
-                  });
-                },
               },
               {
                 label: "Edit",
                 icon: <Edit size={16} />,
                 customComponent: (
-                  <p className="flex items-center gap-2 p-2">
+                  <p className="cursor-pointer hover:bg-gray-50 transition transition-bg flex items-center gap-2 p-2">
                     <Edit size={16} />
                     Edit
                   </p>
@@ -142,7 +148,7 @@ const Events = () => {
                 label: "Deactivate",
                 icon: <Trash size={18} />,
                 customComponent: (
-                  <p className="flex items-center gap-2 p-2 text-red-600">
+                  <p className="cursor-pointer hover:bg-gray-50 transition transition-bg flex items-center gap-2 p-2 text-red-600">
                     <Trash size={18} />
                     Deactivate
                   </p>
@@ -166,7 +172,14 @@ const Events = () => {
   return (
     <PageLayout
       title="Events"
-      actions={[<Button key={"add_event"} text="Add event" icon={<Add />} />]}
+      actions={[
+        <Button
+          onClick={() => navigate("/cms/events/create")}
+          key={"add_event"}
+          text="Add event"
+          icon={<Add />}
+        />,
+      ]}
     >
       <Table
         headerTitle={

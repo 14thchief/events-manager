@@ -1,5 +1,4 @@
 // ./components/EventList.jsx
-import React from "react";
 import { mS } from "../../../constants";
 
 function EventList({

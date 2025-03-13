@@ -53,7 +53,7 @@ button {
 }
 button:hover {
   border-color: none;
-  scale: 1.05;
+  scale: 1.01;
 }
 button:focus,
 button:focus-visible {

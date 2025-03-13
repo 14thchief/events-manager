@@ -78,11 +78,6 @@ function WebPortalLayout() {
     );
   });
 
-  console.log({
-    selectedEventNames: selectedEvents?.map((x) => x?.event),
-    highlightedEventName: highlightedEvent?.event,
-  });
-
   return (
     <div className="w-full max-w-full">
       <Header openMenu={openMenu} setOpenMenu={setOpenMenu} />
