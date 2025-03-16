@@ -3,7 +3,7 @@ import { useGetEventsQuery } from "../../../redux/features/cms/eventSlice";
 import TableDropdownActions from "../../../components/Table/TableDropdownActions";
 import StatusBadge from "../../../components/StatusBadge";
 import { Add, Edit, Eye, Trash } from "../../../assets/icons/icons";
-import { mS } from "../../../constants";
+import { mS } from "../../../constants.tsx";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { formatCurrency } from "../../../utilities/formatCurrency";
@@ -131,18 +131,20 @@ const Events = () => {
                 label: "Edit",
                 icon: <Edit size={16} />,
                 customComponent: (
-                  <p className="cursor-pointer hover:bg-gray-50 transition transition-bg flex items-center gap-2 p-2">
+                  <p
+                    onClick={() => {
+                      navigate(`/cms/events/edit`, {
+                        state: {
+                          event: row.original,
+                        },
+                      });
+                    }}
+                    className="cursor-pointer hover:bg-gray-50 transition transition-bg flex items-center gap-2 p-2"
+                  >
                     <Edit size={16} />
                     Edit
                   </p>
                 ),
-                onClick: () => {
-                  navigate(`/cms/events/${row.original.event}`, {
-                    state: {
-                      event: row.original,
-                    },
-                  });
-                },
               },
               {
                 label: "Deactivate",

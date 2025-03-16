@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AccordionUI from "../../../components/AccordionUI";
-import { fields, mS } from "../../../constants";
+import { fields, mS } from "../../../constants.tsx";
 import { Link, useLocation } from "react-router";
 import { BiLeftArrow } from "react-icons/bi";
 import { formatCurrency } from "../../../utilities/formatCurrency";

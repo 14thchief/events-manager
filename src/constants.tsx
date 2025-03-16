@@ -11,7 +11,7 @@ export const mL = [
   "October",
   "November",
   "December",
-];
+] as const;
 
 export const mS = [
   "Jan",
@@ -26,7 +26,7 @@ export const mS = [
   "Oct",
   "Nov",
   "Dec",
-];
+] as const;
 
 /** CUSTOM */
 export const fields = [
@@ -51,4 +51,6 @@ export const fields = [
   },
   { name: "Roadshow", key: "roadshow" },
   { name: "Strategic Locations", key: "strategic_locations" },
-];
+] as const;
+
+export const regions = ["Africa", "Asia", "America", "EMEA", "UK"] as const;

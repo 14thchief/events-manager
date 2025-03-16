@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import AccordionUI from "./AccordionUI";
-import { fields } from "../constants";
+import { fields } from "../constants.tsx";
 
 export default function InfoModal({
   data,
@@ -78,7 +78,7 @@ export default function InfoModal({
                   }}
                   type="submit"
                   className={
-                    "!flex !gap-4 !font-bold !px-4 !items-center !bg-[#b49c4f] !text-white !mx-auto !max-w-max !w-[200px] !h-[50px] text-[16px]"
+                    "!flex !gap-4 !font-bold !px-4 !items-center !bg-primary !text-white !mx-auto !max-w-max !w-[200px] !h-[50px] text-[16px]"
                   }
                 >
                   {isAccepted ? "Unaccept" : "Accept"}{" "}

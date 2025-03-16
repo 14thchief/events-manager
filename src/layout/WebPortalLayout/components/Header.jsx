@@ -90,7 +90,7 @@ function Header({ openMenu, setOpenMenu }) {
               href="http://properties.ap-lbc.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="button btn-optional ml-2 bg-black text-white hover:text-white px-4 py-3 rounded hover:bg-[#b49c4f] !min-w-max transition"
+              className="button btn-optional ml-2 bg-black text-white hover:text-white px-4 py-3 rounded hover:bg-primary !min-w-max transition"
             >
               Explore our properties
             </a>

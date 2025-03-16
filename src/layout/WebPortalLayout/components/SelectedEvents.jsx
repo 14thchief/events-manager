@@ -1,13 +1,10 @@
-// ./components/SelectedEvents.jsx
-import React from "react";
+import { regions } from "../../../constants.tsx";
 
 function SelectedEvents({
   selectedRegions,
   setSelectedRegions,
   selectedEvents,
 }) {
-  const regions = ["Africa", "Asia", "America", "EMEA", "UK"];
-
   const handleSelectRegion = (region) => {
     setSelectedRegions((prev) =>
       prev.includes(region)
@@ -31,9 +28,7 @@ function SelectedEvents({
                 type="checkbox"
                 name={item}
                 className={`rounded border h-5 w-5 ${
-                  selectedRegions.includes(item)
-                    ? "bg-[#b49c4f]"
-                    : "bg-gray-200"
+                  selectedRegions.includes(item) ? "bg-primary" : "bg-gray-200"
                 }`}
               />
               {item}

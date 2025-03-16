@@ -17,6 +17,7 @@ const ContentManagementRoutes = () => {
       >
         <Route path="events" element={<Events />} />
         <Route path="events/create" element={<EventForm />} />
+        <Route path="events/edit" element={<EventForm />} />
         <Route path="events/:event" element={<EventDetails />} />
       </Route>
     </Routes>

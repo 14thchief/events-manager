@@ -8,8 +8,8 @@ import WebPortalLayout from "./layout/WebPortalLayout";
 
 const App = () => {
   const AuthRoutes = lazy(() => import("./routes/AuthRoutes"));
-  const ContentManagementRoutes = lazy(() =>
-    import("./routes/ContentManagementRoutes")
+  const ContentManagementRoutes = lazy(
+    () => import("./routes/ContentManagementRoutes")
   );
 
   return (

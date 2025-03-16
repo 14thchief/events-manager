@@ -1,5 +1,5 @@
 // ./components/EventList.jsx
-import { mS } from "../../../constants";
+import { mS } from "../../../constants.tsx";
 
 function EventList({
   events,
@@ -43,7 +43,7 @@ function EventList({
               type="checkbox"
               className={`rounded border h-5 w-5 ${
                 selectedEvents.length === events.length
-                  ? "bg-[#b49c4f]"
+                  ? "bg-primary"
                   : "bg-gray-200"
               }`}
             />
@@ -71,11 +71,11 @@ function EventList({
                   type="checkbox"
                   className={`rounded border h-5 w-5 ${
                     selectedEvents.find((i) => i.event === item.event)
-                      ? "bg-[#b49c4f]"
+                      ? "bg-primary"
                       : "bg-white"
                   }`}
                 />
-                <p className="text-[#b49c4f] uppercase text-[15px] font-bold">
+                <p className="text-primary uppercase text-[15px] font-bold">
                   {item.start_date ? (
                     <span>
                       {mS[new Date(item.start_date * 1000).getMonth()]}
@@ -114,7 +114,7 @@ function EventList({
                         e.stopPropagation();
                         setHighlightedEvent(item);
                       }}
-                      className="underline bg-transparent p-0 hover:text-[#b49c4f]"
+                      className="underline bg-transparent p-0 hover:text-primary"
                     >
                       More Info
                     </button>
@@ -128,7 +128,7 @@ function EventList({
           <button
             ref={acceptRef}
             className={`w-full md:w-[400px] md:h-[60px] float-left flex justify-between items-center gap-2 font-bold text-[20px] ${
-              total ? "bg-[#b49c4f]" : "bg-gray-200"
+              total ? "bg-primary" : "bg-gray-200"
             }`}
             onClick={() => {
               total

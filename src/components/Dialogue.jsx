@@ -108,7 +108,7 @@ export default function FormDialog({
               name={"terms"}
               onClick={() => setTermsAgreed((prev) => !prev)}
               className={`rounded border h-5 w-5 ${
-                termsAgreed ? "bg-[#b49c4f]" : "bg-gray-200"
+                termsAgreed ? "bg-primary" : "bg-gray-200"
               }`}
             />
             <p className="bg-gray-200 text-black p-4 flex-1">
@@ -123,7 +123,7 @@ export default function FormDialog({
             <Button
               type="submit"
               className={
-                "!flex !gap-2 !items-center !bg-[#b49c4f] !text-white !mx-auto !w-[200px] !min-w-full !h-[50px]"
+                "!flex !gap-2 !items-center !bg-primary !text-white !mx-auto !w-[200px] !min-w-full !h-[50px]"
               }
             >
               Accept <span className="font-bold">{total ?? ""}</span>

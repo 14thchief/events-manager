@@ -1,6 +1,5 @@
 // ./components/EventFilter.jsx
-import React from "react";
-import { mL } from "../../../constants";
+import { mL } from "../../../constants.tsx";
 
 function EventFilter({
   month,
@@ -21,7 +20,7 @@ function EventFilter({
           <br />
           With limited spots available for enrollment, act quickly to:
         </p>
-        <div className="bg-[#b49c4f] mx-auto w-max max-w-full px-12 py-2">
+        <div className="bg-primary mx-auto w-max max-w-full px-12 py-2">
           <ul className="list-disc text-white font-bold">
             <li>Elevate your brand's visibility</li>
             <li>Expand market presence</li>
@@ -39,7 +38,7 @@ function EventFilter({
           <br />
           <strong>Enrollments are open till December 20th 2024.</strong>
         </p>
-        <p className="text-[#b49c4f] italic text-[17px]">
+        <p className="text-primary italic text-[17px]">
           Choose your events: Check the boxes next to the events you are
           interested in and click <span className="font-bold">"Accept"</span> to
           secure your spot.

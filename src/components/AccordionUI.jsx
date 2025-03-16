@@ -29,7 +29,7 @@ const StyledAccordion = styled((props) => (
 const StyledAccordionSummary = styled((props) => (
   <AccordionSummary
     expandIcon={
-      <div className="bg-[#b49c4f] rounded-full h-5 w-5 flex justify-center items-center">
+      <div className="bg-primary rounded-full h-5 w-5 flex justify-center items-center">
         <FaPlus size={10} color="white" />
       </div>
     }

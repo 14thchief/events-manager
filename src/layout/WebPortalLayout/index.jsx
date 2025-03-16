@@ -131,7 +131,7 @@ function WebPortalLayout() {
         handleSubmit={acceptEvents}
       />
 
-      <footer className="bg-[#b49c4f] flex flex-col items-center text-white">
+      <footer className="bg-primary flex flex-col items-center text-white">
         <div className="flex flex-col items-center pt-6">
           <p>Have questions about an event?</p>
           <p>

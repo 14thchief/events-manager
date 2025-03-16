@@ -35,7 +35,7 @@ const SignupUI = ({ signup, isLoading, setAuthState }) => {
         <p className="flex items-end gap-4 text-sm md:text-[24px] text-gray-500 font-[300]">
           Already have an account?{" "}
           <p
-            className="text-[#b49c4f] hover:underline"
+            className="text-primary hover:underline"
             onClick={() => setAuthState("login")}
           >
             Log in
@@ -59,7 +59,7 @@ const SignupUI = ({ signup, isLoading, setAuthState }) => {
             placeholder="Enter your Full Name"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="w-full p-3 rounded border-2 border-gray-200 focus:outline-none focus:border-[#b49c4f]"
+            className="w-full p-3 rounded border-2 border-gray-200 focus:outline-none focus:border-primary"
           />
         </div>
         <div>
@@ -76,7 +76,7 @@ const SignupUI = ({ signup, isLoading, setAuthState }) => {
             placeholder="Enter your Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 rounded border-2 border-gray-200 focus:outline-none focus:border-[#b49c4f]"
+            className="w-full p-3 rounded border-2 border-gray-200 focus:outline-none focus:border-primary"
           />
         </div>
         <div>
@@ -93,13 +93,13 @@ const SignupUI = ({ signup, isLoading, setAuthState }) => {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 rounded border-2 border-gray-200 focus:outline-none focus:border-[#b49c4f]"
+            className="w-full p-3 rounded border-2 border-gray-200 focus:outline-none focus:border-primary"
           />
         </div>
 
         {/* Remember Me & Forgot Password */}
         <div className="flex items-center justify-between text-sm">
-          <label className="flex items-center text-[#b49c4f]">
+          <label className="flex items-center text-primary">
             <input required type="checkbox" className="checkbox-custom" />I have
             agreed to the terms & conditions
           </label>
@@ -109,7 +109,7 @@ const SignupUI = ({ signup, isLoading, setAuthState }) => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3 mt-2 rounded bg-[#b49c4f] text-white font-semibold hover:bg-[#a48d42] transition-colors"
+          className="w-full py-3 mt-2 rounded bg-primary text-white font-semibold hover:bg-[#a48d42] transition-colors"
         >
           {isLoading ? "Please wait..." : "Sign up"}
         </button>
@@ -117,16 +117,16 @@ const SignupUI = ({ signup, isLoading, setAuthState }) => {
 
       {/* Divider with "or" */}
       <div className="flex items-center my-6">
-        <hr className="flex-1 border-[#b49c4f]" />
-        <span className="mx-2 text-[#b49c4f]">or</span>
-        <hr className="flex-1 border-[#b49c4f]" />
+        <hr className="flex-1 border-primary" />
+        <span className="mx-2 text-primary">or</span>
+        <hr className="flex-1 border-primary" />
       </div>
 
       {/* Sign in with Google */}
       <button
         onClick={() => setAuthState("signup")}
         type="button"
-        className="bg-transparent w-full py-3 rounded border border-[#b49c4f] text-gray-400 flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors"
+        className="bg-transparent w-full py-3 rounded border border-primary text-gray-400 flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors"
       >
         <FcGoogle size={18} />
         <span>Sign up with Google</span>

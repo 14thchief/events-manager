@@ -1,15 +1,26 @@
 import { svgs } from "../../assets";
 import styles from "./_styles.module.scss";
 
-const Button = ({
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "main" | "secondary" | "alt"; // Add more variants as needed
+  width?: "full" | "fit" | "auto" | number; // 'full' for 100%, 'auto' for content-based, or a number for pixel width
+  size?: "big" | "medium" | "small" | "very-small"; // Add more sizes as needed
+  iconRight?: boolean;
+  text?: string;
+  icon?: React.ReactNode;
+  isLoading?: boolean;
+  disabled?: boolean;
+}
+
+const Button: React.FC<ButtonProps> = ({
   variant = "main",
   width = "full",
   size = "big",
   iconRight = false,
-  text,
-  icon,
-  isLoading,
-  disabled,
+  text = "",
+  icon = null,
+  isLoading = false,
+  disabled = false,
   ...restProps
 }) => {
   return (

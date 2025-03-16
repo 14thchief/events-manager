@@ -9,7 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ActionModal from "./components/ActionModal";
 
-const root = document.getElementById("root");
+const root = document.getElementById("root") as HTMLElement;
 
 ReactDOM.createRoot(root).render(
   <StrictMode>
