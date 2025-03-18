@@ -104,13 +104,14 @@ const EventForm: React.FC = () => {
     const submissionData: Record<string, any> = {
       ...rest,
       ...detailsObject,
-      id: initialData?.id,
     };
     submissionData.hotel_cost && (submissionData.hotel_cost *= 100);
 
     // API Call
     if (isEditing) {
-      const realUpdate: Record<string, any> = {};
+      const realUpdate: Record<string, any> = {
+        id: initialData?.id
+      };
       Object.entries(state?.event)?.forEach(([key, val]) =>
         submissionData[key] !== val ? (realUpdate[key] = val) : null
       );
