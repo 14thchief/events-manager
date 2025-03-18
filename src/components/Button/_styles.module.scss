@@ -101,7 +101,7 @@
   @extend %button;
   background-color: #fff;
   color: $color-primary;
-  border: 1px solid #d0d5dd;
+  border: 1px solid $color-primary;
   box-shadow: $box-shadow-xs;
   min-height: 40px;
   transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;

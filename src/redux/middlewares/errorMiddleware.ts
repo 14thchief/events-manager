@@ -23,7 +23,7 @@ export const rtkQueryErrorLogger: Middleware =
             isOpen: true,
             title: "Session Expired!",
             type: "warning",
-            content: "Kindly logout and log back in to continue using SoftGate",
+            content: "Kindly logout and log back in to continue.",
             callback: () => (window.location.href = "/auth/cms"),
             callbackText: "Go to Login",
             blockCancel: true,

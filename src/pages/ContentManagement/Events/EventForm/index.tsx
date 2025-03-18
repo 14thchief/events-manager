@@ -2,15 +2,33 @@ import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { BiLeftArrow } from "react-icons/bi";
 import { regions } from "../../../../constants";
-import DatePicker from "../../../../components/Forms/DatePicker"; // Import the DatePicker component
+import DatePicker from "../../../../components/Forms/DatePicker";
 import Button from "../../../../components/Button";
 import EventDetailsModal, { Detail } from "./EventDetailsModal";
+
+// List of keys representing individual detail fields in edit mode.
+export const detailKeys = [
+  "overview",
+  "objectives",
+  "hotel_benefits",
+  "execution_plan",
+  "investment_roi",
+  "expected_outcome",
+  "follow_up_strategies",
+  "presentations_networking_opportunities",
+  "prescheduled_meetings",
+  "strategic_value_for_participants",
+  "key_components_of_the_strategy",
+  "roadshow",
+  "strategic_locations",
+  "potential_clients",
+] as const;
 
 interface EventFormState {
   event: string;
   segment: string;
-  start_date: number; // Unix timestamp in seconds
-  end_date: number; // Unix timestamp in seconds
+  start_date: number;
+  end_date: number;
   city: string;
   hotel_cost: string;
   type: string;
@@ -19,28 +37,39 @@ interface EventFormState {
   details: Detail[];
 }
 
+// Extract detail fields from event data into a unified details array.
+const extractDetails = (eventData: any): Detail[] => {
+  return detailKeys.map((key) => ({
+    type: key,
+    value: eventData[key] || "",
+  }));
+};
+
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const isEditing = Boolean(state?.event);
 
-  // State to control modal visibility for event details
-  const [showOtherDetails, setShowOtherDetails] = useState(false);
+  const initialData = state?.event
+    ? {
+        ...state.event,
+        details: extractDetails(state.event),
+      }
+    : {
+        event: "",
+        segment: "",
+        start_date: Math.floor(Date.now() / 1000),
+        end_date: Math.floor(Date.now() / 1000) + 86400,
+        city: "",
+        hotel_cost: "",
+        type: "",
+        region: "",
+        coupon: "",
+        details: [] as Detail[],
+      };
 
-  const [formData, setFormData] = useState<EventFormState>(
-    state?.event || {
-      event: "",
-      segment: "",
-      start_date: Math.floor(Date.now() / 1000), // Default: current timestamp
-      end_date: Math.floor(Date.now() / 1000) + 86400, // Default: next day
-      city: "",
-      hotel_cost: "",
-      type: "",
-      region: "",
-      coupon: "",
-      details: [],
-    }
-  );
+  const [formData, setFormData] = useState<EventFormState>(initialData);
+  const [showOtherDetails, setShowOtherDetails] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -53,10 +82,17 @@ const EventForm: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: timestamp }));
   };
 
+  // On submit, merge details back into event object (excluding the temporary details array)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitted Data:", formData);
-    // Add submission logic here
+    const { details, ...rest } = formData;
+    const detailsObject = details.reduce(
+      (acc, detail) => ({ ...acc, [detail.type]: detail.value }),
+      {} as Record<string, string>
+    );
+    const submissionData = { ...rest, ...detailsObject };
+    console.log("Submitted Data:", submissionData);
+    // Add your submission logic (e.g., API call) here
   };
 
   return (
@@ -132,7 +168,9 @@ const EventForm: React.FC = () => {
             />
 
             <input
-              type="text"
+              type="number"
+              min="1"
+              step="any"
               name="hotel_cost"
               value={formData.hotel_cost}
               onChange={handleChange}
@@ -157,22 +195,31 @@ const EventForm: React.FC = () => {
                   }}
                 />
               </div>
-              {formData.details.length > 0 && (
+              {formData.details?.length > 0 && (
                 <ul className="flex flex-col gap-4">
-                  {formData.details.map((detail, index) => (
-                    <div key={index} className="flex flex-col gap-1">
-                      <span className="font-medium">{detail.type}</span>{" "}
-                      <p className="whitespace-pre-wrap font-light">
-                        {detail.value}
-                      </p>
-                    </div>
-                  ))}
+                  {formData.details
+                    // Filter out details whose value is empty (after stripping HTML)
+                    .filter((x) => {
+                      const text = x.value.replace(/<[^>]*>/g, "").trim();
+                      return text.length > 0;
+                    })
+                    .map((detail, index) => (
+                      <div key={index} className="flex flex-col gap-1">
+                        <span className="font-medium capitalize">
+                          {detail.type.split("_").join(" ")}
+                        </span>
+                        <div
+                          className="whitespace-pre-wrap border rounded p-3 py-6"
+                          dangerouslySetInnerHTML={{ __html: detail.value }}
+                        ></div>
+                      </div>
+                    ))}
                 </ul>
               )}
             </div>
           </div>
 
-          <div className="rounded border p-4 min-w-max flex-1 lg:flex-none flex flex-col gap-4">
+          <div className="sticky top-20 rounded border-t p-4 min-w-max flex-1 max-h-max lg:flex-none flex flex-col gap-4 shadow-md">
             <label className="flex flex-col gap-2 font-semibold">
               Event Type
               <select
@@ -233,7 +280,9 @@ const EventForm: React.FC = () => {
       <EventDetailsModal
         isOpen={showOtherDetails}
         details={formData.details}
-        onSave={(details: any) => setFormData((prev) => ({ ...prev, details }))}
+        onSave={(details: Detail[]) =>
+          setFormData((prev) => ({ ...prev, details }))
+        }
         onClose={() => setShowOtherDetails(false)}
       />
     </div>
