@@ -110,10 +110,12 @@ const EventForm: React.FC = () => {
     // API Call
     if (isEditing) {
       const realUpdate: Record<string, any> = {
-        id: initialData?.id
+        id: initialData?.id,
       };
       Object.entries(state?.event)?.forEach(([key, val]) =>
-        submissionData[key] !== val ? (realUpdate[key] = val) : null
+        submissionData[key] !== val
+          ? (realUpdate[key] = submissionData[key])
+          : null
       );
 
       updateEvent(realUpdate)

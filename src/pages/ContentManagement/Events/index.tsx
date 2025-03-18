@@ -1,6 +1,9 @@
 "use client";
 import Table from "../../../components/Table";
-import { useDeleteEventMutation, useGetEventsQuery } from "../../../redux/features/cms/eventSlice";
+import {
+  useDeleteEventMutation,
+  useGetEventsQuery,
+} from "../../../redux/features/cms/eventSlice";
 import TableDropdownActions from "../../../components/Table/TableDropdownActions";
 import StatusBadge from "../../../components/StatusBadge";
 import { Add, Edit, Eye, Trash } from "../../../assets/icons/icons";
@@ -27,11 +30,8 @@ const Events = () => {
   const [deleteEvent] = useDeleteEventMutation();
   const handleDelete = (id: number) => {
     // dispatch(openActionModal({
-
     // }))
-
-    
-  }
+  };
 
   const columns: TableColumn<Event>[] = [
     {
@@ -57,7 +57,7 @@ const Events = () => {
     },
     {
       header: "Date",
-      accessorKey: "date",
+      accessorKey: "start_date",
       cell: ({ row }) => {
         const item = row.original;
         return (
@@ -80,12 +80,12 @@ const Events = () => {
           </p>
         );
       },
-      enableSorting: false,
+      enableSorting: true,
     },
     {
       header: "Location",
       accessorKey: "city",
-      enableSorting: false,
+      enableSorting: true,
       cell: ({ getValue }) => {
         return getValue() ?? <p style={{ color: "lightgray" }}>{"N/A"}</p>;
       },
@@ -93,7 +93,7 @@ const Events = () => {
     {
       header: "Event Segment",
       accessorKey: "segment",
-      enableSorting: false,
+      enableSorting: true,
       cell: ({ getValue }) => {
         return getValue() ?? <p style={{ color: "lightgray" }}>{"N/A"}</p>;
       },
@@ -112,12 +112,12 @@ const Events = () => {
           </StatusBadge>
         );
       },
-      enableSorting: false,
+      enableSorting: true,
     },
     {
       header: "Cost",
       accessorKey: "hotel_cost",
-      enableSorting: false,
+      enableSorting: true,
       cell: ({ getValue }) => {
         return (
           formatCurrency((getValue() as number) / 100, "GBP") ?? (
@@ -173,7 +173,10 @@ const Events = () => {
                 label: "Deactivate",
                 icon: <Trash size={18} />,
                 customComponent: (
-                  <p onClick={()=> handleDelete(row.original.id)} className="cursor-pointer hover:bg-gray-50 transition transition-bg flex items-center gap-2 p-2 text-red-600">
+                  <p
+                    onClick={() => handleDelete(row.original.id)}
+                    className="cursor-pointer hover:bg-gray-50 transition transition-bg flex items-center gap-2 p-2 text-red-600"
+                  >
                     <Trash size={18} />
                     Delete
                   </p>
