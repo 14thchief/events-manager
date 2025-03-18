@@ -69,7 +69,10 @@ export default function AccordionUI({ title, content, expanded, onExpanded }) {
         <StyledAccordionDetails>
           <Typography className="!whitespace-pre-wrap !text-sm !font-light !p-0">
             {/* {content} */}
-            <p dangerouslySetInnerHTML={{ __html: content }}></p>
+            <p
+              className="!whitespace-pre-wrap"
+              dangerouslySetInnerHTML={{ __html: content }}
+            ></p>
           </Typography>
         </StyledAccordionDetails>
       </StyledAccordion>

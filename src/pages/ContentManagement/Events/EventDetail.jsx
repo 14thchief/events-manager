@@ -26,7 +26,7 @@ const EventDetails = () => {
       </Link>
 
       <div className="flex gap-8 items-start">
-        <main className="flex-1">
+        <main className="flex-1 no-scrollbar">
           <h1 className="text-2xl font-bold">{data?.event}</h1>
           <p className="text-gray-600 mb-4">{data?.segment}</p>
 

@@ -42,12 +42,9 @@ const eventSlice = cmsApi.injectEndpoints({
       invalidatesTags: ["events"],
     }),
     deleteEvent: builder.mutation({
-      query: (data: Partial<Event>) => ({
-        url: "events",
+      query: (id) => ({
+        url: `events/${id}`,
         method: "DELETE",
-        body: {
-          ...data,
-        },
       }),
       transformResponse: (response: { data: Event }) => {
         return response.data;

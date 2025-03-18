@@ -1,6 +1,6 @@
 "use client";
 import Table from "../../../components/Table";
-import { useGetEventsQuery } from "../../../redux/features/cms/eventSlice";
+import { useDeleteEventMutation, useGetEventsQuery } from "../../../redux/features/cms/eventSlice";
 import TableDropdownActions from "../../../components/Table/TableDropdownActions";
 import StatusBadge from "../../../components/StatusBadge";
 import { Add, Edit, Eye, Trash } from "../../../assets/icons/icons";
@@ -14,12 +14,24 @@ import Button from "../../../components/Button";
 import { Event } from "../../../redux/features/cms/types/eventType";
 import { TableColumn } from "../../../components/Table/types";
 import { Status } from "../../../components/StatusBadge/types";
+import { useDispatch } from "react-redux";
+import { openActionModal } from "../../../redux/features/util/actionModalSlice";
 
 const Events = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data: events, isLoading: isEventsLoading } = useGetEventsQuery();
   const memoizedEvents = useMemo(() => events, [events]);
   const [selectedEvents, setSelectedEvents] = useState([]);
+
+  const [deleteEvent] = useDeleteEventMutation();
+  const handleDelete = (id: number) => {
+    // dispatch(openActionModal({
+
+    // }))
+
+    
+  }
 
   const columns: TableColumn<Event>[] = [
     {
@@ -161,9 +173,9 @@ const Events = () => {
                 label: "Deactivate",
                 icon: <Trash size={18} />,
                 customComponent: (
-                  <p className="cursor-pointer hover:bg-gray-50 transition transition-bg flex items-center gap-2 p-2 text-red-600">
+                  <p onClick={()=> handleDelete(row.original.id)} className="cursor-pointer hover:bg-gray-50 transition transition-bg flex items-center gap-2 p-2 text-red-600">
                     <Trash size={18} />
-                    Deactivate
+                    Delete
                   </p>
                 ),
                 onClick: () => {
