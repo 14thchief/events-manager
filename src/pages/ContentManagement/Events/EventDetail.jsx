@@ -37,7 +37,10 @@ const EventDetails = () => {
           >
             <h2 className="text-xl font-semibold">Overview</h2>
             <div className="bg-gray-100 p-4 rounded-lg">
-              <p className="!whitespace-pre-wrap">{data?.overview}</p>
+              <p
+                className="!whitespace-pre-wrap"
+                dangerouslySetInnerHTML={{ __html: data?.overview }}
+              ></p>
             </div>
           </section>
 
@@ -48,7 +51,10 @@ const EventDetails = () => {
           >
             <h2 className="text-xl font-semibold">Objectives</h2>
             <div className="bg-gray-100 p-4 rounded-lg">
-              <p className="!whitespace-pre-wrap">{data?.objectives}</p>
+              <p
+                className="!whitespace-pre-wrap"
+                dangerouslySetInnerHTML={{ __html: data?.objectives }}
+              ></p>
             </div>
           </section>
 

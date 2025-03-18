@@ -20,7 +20,7 @@ interface EventDetailsModalProps {
 
 const EventDetailsModal: React.FC<EventDetailsModalProps> = ({
   isOpen,
-  details,
+  details = [],
   onSave,
   onClose,
 }) => {
@@ -43,7 +43,7 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({
   // Sync local state when modal opens or details prop changes
   useEffect(() => {
     if (isOpen) {
-      setLocalDetails(details);
+      // setLocalDetails(details);
       setNewDetailType("");
       setNewDetailValue("");
     }
@@ -81,25 +81,16 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({
     onClose();
   };
 
-  // Filter localDetails to only include those with non-empty text
-  const filteredDetails = useMemo(
-    () =>
-      localDetails.filter((x) => {
-        const text = x.value.replace(/<[^>]*>/g, "").trim();
-        return text.length > 0;
-      }),
-    [localDetails]
-  );
-
+  console.log({ localDetails });
   return (
     <Modal open={isOpen} onClose={onClose}>
       <div className="flex flex-col gap-4 bg-transparent rounded-lg min-w-[90vw] md:min-w-[60vw] lg:min-w-[40vw] p-6">
         <h2 className="text-xl font-bold mb-4">Event Details</h2>
 
         {/* List of current details */}
-        {filteredDetails.length > 0 ? (
+        {localDetails.length > 0 ? (
           <ul className="space-y-4 mb-4">
-            {filteredDetails.map((detail, index) => (
+            {localDetails.map((detail, index) => (
               <li key={index} className="flex flex-col gap-2 py-2">
                 <div className="flex items-center justify-between px-1">
                   <span className="font-bold capitalize">

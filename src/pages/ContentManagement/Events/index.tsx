@@ -1,14 +1,19 @@
+"use client";
 import Table from "../../../components/Table";
 import { useGetEventsQuery } from "../../../redux/features/cms/eventSlice";
 import TableDropdownActions from "../../../components/Table/TableDropdownActions";
 import StatusBadge from "../../../components/StatusBadge";
 import { Add, Edit, Eye, Trash } from "../../../assets/icons/icons";
-import { mS } from "../../../constants.tsx";
+import { mS } from "../../../constants";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { formatCurrency } from "../../../utilities/formatCurrency";
 import PageLayout from "../../../components/PageLayout";
+import { ColumnDef } from "@tanstack/react-table";
 import Button from "../../../components/Button";
+import { Event } from "../../../redux/features/cms/types/eventType";
+import { TableColumn } from "../../../components/Table/types";
+import { Status } from "../../../components/StatusBadge/types";
 
 const Events = () => {
   const navigate = useNavigate();
@@ -16,7 +21,7 @@ const Events = () => {
   const memoizedEvents = useMemo(() => events, [events]);
   const [selectedEvents, setSelectedEvents] = useState([]);
 
-  const columns = [
+  const columns: TableColumn<Event>[] = [
     {
       header: "Event Name",
       accessorKey: "event",
@@ -32,11 +37,11 @@ const Events = () => {
           }}
         >
           <p className={`cursor-pointer text-[#483e1f] hover:underline`}>
-            {getValue()}
+            {getValue() as Event["event"]}
           </p>
         </div>
       ),
-      enableSorting: false,
+      enableSorting: true,
     },
     {
       header: "Date",
@@ -84,11 +89,17 @@ const Events = () => {
     {
       header: "Status",
       accessorKey: "status",
-      cell: ({ getValue }) => (
-        <StatusBadge textOnly status={getValue()?.toLowerCase() || "active"}>
-          {getValue() || "Active"}
-        </StatusBadge>
-      ),
+      cell: ({ getValue }) => {
+        const status = getValue() as string | undefined;
+        return (
+          <StatusBadge
+            textOnly={true}
+            status={(status?.toLowerCase() as Status) || "active"}
+          >
+            {(getValue() as string) || "Active"}
+          </StatusBadge>
+        );
+      },
       enableSorting: false,
     },
     {
@@ -97,7 +108,7 @@ const Events = () => {
       enableSorting: false,
       cell: ({ getValue }) => {
         return (
-          formatCurrency(getValue() / 100, "GBP") ?? (
+          formatCurrency((getValue() as number) / 100, "GBP") ?? (
             <p style={{ color: "lightgray" }}>{"N/A"}</p>
           )
         );

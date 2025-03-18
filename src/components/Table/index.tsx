@@ -6,6 +6,9 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
+  OnChangeFn,
+  SortingState,
+  Table as TanStackTable,
 } from "@tanstack/react-table";
 import {
   ArrowDownHi,
@@ -17,8 +20,9 @@ import SuspenseElement from "../SuspenseElement";
 import EmptyData from "../EmptyData";
 import styles from "./_styles.module.scss";
 import { getColumnsWithHeader, getServerPagination } from "./data";
+import { TableProps } from "./types";
 
-const Table = ({
+const Table = <T extends object>({
   data,
   columns,
   loading,
@@ -28,7 +32,7 @@ const Table = ({
   countText,
   selectable = false, // Enable row selection when true
   onSelectionChange, // Custom on-change handler receiving array of selected row values
-}) => {
+}: TableProps<T>) => {
   const tableData = useMemo(() => data, [data]);
   const baseColumns = useMemo(() => columns, [columns]);
 
@@ -38,7 +42,7 @@ const Table = ({
       const selectionColumn = {
         id: "select",
         enableSorting: false, // Disable sorting on the selection column.
-        header: ({ table }) => (
+        header: ({ table }: { table: TanStackTable<T> }) => (
           <input
             type="checkbox"
             onChange={table.getToggleAllRowsSelectedHandler()}
@@ -47,7 +51,7 @@ const Table = ({
             className={`${styles["checkbox-custom"]} header-checkbox`}
           />
         ),
-        cell: ({ row }) => (
+        cell: ({ row }: { row: any }) => (
           <input
             type="checkbox"
             onChange={row.getToggleSelectedHandler()}
@@ -108,7 +112,7 @@ const Table = ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    onSortingChange: setSorting,
+    onSortingChange: setSorting as OnChangeFn<SortingState>,
     // Only handle row selection changes when selectable is enabled.
     onRowSelectionChange: selectable ? setRowSelection : undefined,
     state: tableState,
@@ -194,7 +198,11 @@ const Table = ({
                           columnEl.column.columnDef.enableSorting !== false;
                       return (
                         <th key={columnEl.id} colSpan={columnEl.colSpan}>
-                          <div className={styles[columnEl.column.id]}>
+                          <div
+                            className={`flex items-center gap-1 ${
+                              styles[columnEl.column.id]
+                            }`}
+                          >
                             {columnEl.isPlaceholder
                               ? null
                               : flexRender(
@@ -204,6 +212,7 @@ const Table = ({
                             {isColumnSorted && (
                               <span
                                 onClick={columnEl.column.getToggleSortingHandler()}
+                                className="cursor-pointer"
                               >
                                 {sortIcon}
                               </span>

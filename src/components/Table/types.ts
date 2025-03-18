@@ -11,6 +11,8 @@ export interface TableProps<TData> {
   headerTitle?: string;
   loading?: boolean;
   countText?: string;
+  selectable?: boolean;
+  onSelectionChange?: (event: any) => void;
   tableProps?:
     | {
         filters?: ColumnFiltersState;
