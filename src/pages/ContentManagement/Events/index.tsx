@@ -29,8 +29,33 @@ const Events = () => {
 
   const [deleteEvent] = useDeleteEventMutation();
   const handleDelete = (id: number) => {
-    // dispatch(openActionModal({
-    // }))
+    dispatch(
+      openActionModal({
+        title: "Confirm Delete Event",
+        isOpen: true,
+        type: "warning",
+        content: `Are you sure you want to Delete this event?`,
+        callback: () => {
+          deleteEvent(id)
+            .unwrap()
+            .then(() => {
+              dispatch(
+                openActionModal({
+                  isOpen: true,
+                  type: "success",
+                  title: "Event Deleted",
+                  content: <p>Event successfully deleted!</p>,
+                  callback: () => navigate("/cms/events"),
+                  callbackText: "Close",
+                })
+              );
+            })
+            .catch((error) => console.error(error));
+        },
+        callbackText: "Delete",
+        cancelText: "Cancel",
+      })
+    );
   };
 
   const columns: TableColumn<Event>[] = [
@@ -181,13 +206,6 @@ const Events = () => {
                     Delete
                   </p>
                 ),
-                onClick: () => {
-                  navigate(`/cms/events/${row.original.event}`, {
-                    state: {
-                      event: row.original,
-                    },
-                  });
-                },
               },
             ]}
           />

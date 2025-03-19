@@ -11,8 +11,8 @@
 
   @include maxq(map-get($screen-sizes, "large")) {
     flex-wrap: wrap;
-    justify-content: center;
-    flex-direction: column;
+    // justify-content: center;
+    // flex-direction: column;
   }
 
   .title {
@@ -93,7 +93,8 @@
       @include maxq(map-get($screen-sizes, "medium")) {
         // padding: 12px 24px;
         font-size: 12px;
-        max-width: 133px;
+        // max-width: 140px;
+        padding: 10px;
       }
     }
 

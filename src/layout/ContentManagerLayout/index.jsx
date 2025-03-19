@@ -37,7 +37,7 @@ const ContentManagementLayout = () => {
             </p>
           </div>
         </div>
-        <div className={`px-6 py-4`}>
+        <div className={`p-4 max-w-full`}>
           <Outlet context={contextValue} />
         </div>
       </main>

@@ -10,6 +10,13 @@ export const sidebarData = {
       access: "*",
       permissionName: "events",
     },
+    {
+      title: "Coupon Management",
+      icon: <ImageIcon imageSrc={listIcon} size={24} />,
+      path: "/cms/coupons",
+      access: "*",
+      permissionName: "coupons",
+    },
   ],
   bottomRoutes: [],
 };

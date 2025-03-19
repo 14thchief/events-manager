@@ -120,8 +120,7 @@ const EventForm: React.FC = () => {
 
       updateEvent(realUpdate)
         .unwrap()
-        .then((res) => {
-          console.log({ res });
+        .then(() => {
           dispatch(
             openActionModal({
               isOpen: true,
@@ -138,8 +137,7 @@ const EventForm: React.FC = () => {
     } else {
       createEvent(submissionData)
         .unwrap()
-        .then((res) => {
-          console.log({ res });
+        .then(() => {
           dispatch(
             openActionModal({
               isOpen: true,
