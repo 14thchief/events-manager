@@ -1,7 +1,7 @@
 import { Inbox } from "../../assets/icons/icons";
 import styles from "./_styles.module.scss";
 
-const EmptyData = ({ message, iconSrc }) => {
+const EmptyData = ({ message = "", iconSrc = null }) => {
   return (
     <div className={styles.emptyData}>
       {iconSrc ? (

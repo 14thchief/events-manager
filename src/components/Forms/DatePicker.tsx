@@ -4,6 +4,7 @@ interface DatePickerProps {
   label: string;
   name: string;
   timestamp: number;
+  minDate?: string;
   onChange: (name: string, timestamp: number) => void;
   className?: string;
 }
@@ -14,6 +15,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   timestamp,
   onChange,
   className,
+  minDate,
 }) => {
   // Convert Unix timestamp to "YYYY-MM-DD"
   const formatDate = (timestamp: number): string => {
@@ -34,6 +36,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
     <div className={`flex flex-col ${className}`}>
       <label className="font-semibold">{label}</label>
       <input
+        min={minDate}
         type="date"
         name={name}
         value={formatDate(timestamp)}

@@ -25,8 +25,8 @@ const EventDetails = () => {
         <BiLeftArrow /> Back
       </Link>
 
-      <div className="flex gap-8 items-start">
-        <main className="flex-1">
+      <div className="flex flex-col-reverse lg:flex-row gap-8 items-start">
+        <main className="flex-1 no-scrollbar">
           <h1 className="text-2xl font-bold">{data?.event}</h1>
           <p className="text-gray-600 mb-4">{data?.segment}</p>
 
@@ -37,7 +37,10 @@ const EventDetails = () => {
           >
             <h2 className="text-xl font-semibold">Overview</h2>
             <div className="bg-gray-100 p-4 rounded-lg">
-              <p className="!whitespace-pre-wrap">{data?.overview}</p>
+              <p
+                className="!whitespace-pre-wrap"
+                dangerouslySetInnerHTML={{ __html: data?.overview }}
+              ></p>
             </div>
           </section>
 
@@ -48,7 +51,10 @@ const EventDetails = () => {
           >
             <h2 className="text-xl font-semibold">Objectives</h2>
             <div className="bg-gray-100 p-4 rounded-lg">
-              <p className="!whitespace-pre-wrap">{data?.objectives}</p>
+              <p
+                className="!whitespace-pre-wrap"
+                dangerouslySetInnerHTML={{ __html: data?.objectives }}
+              ></p>
             </div>
           </section>
 
@@ -67,7 +73,7 @@ const EventDetails = () => {
           </section>
         </main>
 
-        <section className="!sticky top-20 mb-6 flex flex-col gap-4">
+        <section className="lg:sticky lg:top-20 w-full lg:w-max mb-6 flex flex-col gap-4">
           <h3 className="text-lg font-semibold">{data?.type}</h3>
           <div className="space-y-1">
             <p className="text-gray-700 font-medium">Location</p>

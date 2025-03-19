@@ -60,19 +60,22 @@ const Sidebar = (props) => {
       }`}
     >
       <div
-        className={`${styles.sidebar} ${
+        className={`shadow-lg ${styles.sidebar} ${
           !isMobile ? "" : props.open ? styles.open : styles.closed
         }`}
       >
         <div className={styles.routes}>
-          <div className={styles.logoContainer}>
+          <div className={`${styles.logoContainer} pr-2`}>
             <div className={styles.logo}>
               <Link to="/cm">
                 <p>LOGO</p>
               </Link>
             </div>
             {isMobile && (
-              <button onClick={() => props.setOpen((prev) => !prev)}>
+              <button
+                className="bg-primary text-white shadow-xl rounded-full h-8 w-8 p-0 flex items-center justify-center"
+                onClick={() => props.setOpen((prev) => !prev)}
+              >
                 <BiX size={32} />
               </button>
             )}

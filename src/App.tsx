@@ -22,7 +22,7 @@ const App = () => {
         }
       >
         <Route>
-          <Route path="/" element={<Navigate to={"/auth"} />} />
+          <Route path="/" element={<Navigate to={"/web-portal"} />} />
         </Route>
         <Route path="/web-portal" element={<WebPortalLayout />} />
         <Route element={<AuthLayout />}>

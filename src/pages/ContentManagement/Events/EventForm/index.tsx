@@ -5,6 +5,12 @@ import { regions } from "../../../../constants";
 import DatePicker from "../../../../components/Forms/DatePicker";
 import Button from "../../../../components/Button";
 import EventDetailsModal, { Detail } from "./EventDetailsModal";
+import {
+  useCreateEventMutation,
+  useEditEventMutation,
+} from "../../../../redux/features/cms/eventSlice";
+import { useDispatch } from "react-redux";
+import { openActionModal } from "../../../../redux/features/util/actionModalSlice";
 
 // List of keys representing individual detail fields in edit mode.
 export const detailKeys = [
@@ -30,7 +36,7 @@ interface EventFormState {
   start_date: number;
   end_date: number;
   city: string;
-  hotel_cost: string;
+  hotel_cost: number;
   type: string;
   region: string;
   coupon: string;
@@ -47,12 +53,14 @@ const extractDetails = (eventData: any): Detail[] => {
 
 const EventForm: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { state } = useLocation();
   const isEditing = Boolean(state?.event);
 
   const initialData = state?.event
     ? {
         ...state.event,
+        hotel_cost: state.event.hotel_cost / 100,
         details: extractDetails(state.event),
       }
     : {
@@ -72,16 +80,19 @@ const EventForm: React.FC = () => {
   const [showOtherDetails, setShowOtherDetails] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    overwriteValue?: any
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: overwriteValue ?? value }));
   };
 
   const handleDateChange = (name: string, timestamp: number) => {
     setFormData((prev) => ({ ...prev, [name]: timestamp }));
   };
 
+  const [createEvent, { isLoading: isCreating }] = useCreateEventMutation();
+  const [updateEvent, { isLoading: isUpdating }] = useEditEventMutation();
   // On submit, merge details back into event object (excluding the temporary details array)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,10 +101,65 @@ const EventForm: React.FC = () => {
       (acc, detail) => ({ ...acc, [detail.type]: detail.value }),
       {} as Record<string, string>
     );
-    const submissionData = { ...rest, ...detailsObject };
-    console.log("Submitted Data:", submissionData);
-    // Add your submission logic (e.g., API call) here
+    const submissionData: Record<string, any> = {
+      ...rest,
+      ...detailsObject,
+    };
+    submissionData.hotel_cost && (submissionData.hotel_cost *= 100);
+
+    // API Call
+    if (isEditing) {
+      const realUpdate: Record<string, any> = {
+        id: initialData?.id,
+      };
+      Object.entries(state?.event)?.forEach(([key, val]) =>
+        submissionData[key] !== val
+          ? (realUpdate[key] = submissionData[key])
+          : null
+      );
+
+      updateEvent(realUpdate)
+        .unwrap()
+        .then(() => {
+          dispatch(
+            openActionModal({
+              isOpen: true,
+              type: "success",
+              title: "Event Updated Successfully",
+              content: <p>Event successfully updated!</p>,
+              callback: () => navigate("/cms/events"),
+              callbackText: "Continue",
+            })
+          );
+          // navigate("/cms/events");
+        })
+        .catch((error) => console.error(error));
+    } else {
+      createEvent(submissionData)
+        .unwrap()
+        .then(() => {
+          dispatch(
+            openActionModal({
+              isOpen: true,
+              type: "success",
+              title: "Event",
+              content: <p>Event successfully created!</p>,
+              callback: () => navigate("/cms/events"),
+              callbackText: "Continue",
+            })
+          );
+          // navigate("/cms/events");
+        })
+        .catch((error) => console.error(error));
+    }
   };
+
+  const filteredDetails = formData.details
+    // Filter out details whose value is empty (after stripping HTML)
+    .filter((x) => {
+      const text = x.value.replace(/<[^>]*>/g, "").trim();
+      return text.length > 0;
+    });
 
   return (
     <div className="px-6 min-w-full flex flex-col gap-6 max-w-3xl mx-auto py-8">
@@ -173,7 +239,7 @@ const EventForm: React.FC = () => {
               step="any"
               name="hotel_cost"
               value={formData.hotel_cost}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e, e.target.valueAsNumber)}
               placeholder="Add Price"
               className="border p-2 rounded-lg w-full"
               required
@@ -197,23 +263,19 @@ const EventForm: React.FC = () => {
               </div>
               {formData.details?.length > 0 && (
                 <ul className="flex flex-col gap-4">
-                  {formData.details
-                    // Filter out details whose value is empty (after stripping HTML)
-                    .filter((x) => {
-                      const text = x.value.replace(/<[^>]*>/g, "").trim();
-                      return text.length > 0;
-                    })
-                    .map((detail, index) => (
+                  {filteredDetails?.map((detail, index) => {
+                    return (
                       <div key={index} className="flex flex-col gap-1">
-                        <span className="font-medium capitalize">
+                        <span className="font-semibold capitalize">
                           {detail.type.split("_").join(" ")}
                         </span>
                         <div
-                          className="whitespace-pre-wrap border rounded p-3 py-6"
+                          className="whitespace-pre-wrap border rounded p-3"
                           dangerouslySetInnerHTML={{ __html: detail.value }}
                         ></div>
                       </div>
-                    ))}
+                    );
+                  })}
                 </ul>
               )}
             </div>
@@ -261,7 +323,6 @@ const EventForm: React.FC = () => {
                 value={formData.coupon}
                 onChange={handleChange}
                 className="border p-2 rounded-lg w-full font-normal"
-                required
               >
                 <option value="">Select Coupon</option>
               </select>
@@ -270,7 +331,13 @@ const EventForm: React.FC = () => {
               type="submit"
               className="bg-[#B29B4E] text-white w-full px-6 py-2 mt-4 rounded-lg"
             >
-              {isEditing ? "Save Event" : "Add Event"}
+              {isCreating
+                ? "Adding Event..."
+                : isUpdating
+                ? "Updating Event..."
+                : isEditing
+                ? "Save Update"
+                : "Add Event"}
             </button>
           </div>
         </section>
@@ -279,7 +346,7 @@ const EventForm: React.FC = () => {
       {/* Render the Event Details Modal */}
       <EventDetailsModal
         isOpen={showOtherDetails}
-        details={formData.details}
+        details={filteredDetails}
         onSave={(details: Detail[]) =>
           setFormData((prev) => ({ ...prev, details }))
         }
