@@ -331,7 +331,13 @@ const EventForm: React.FC = () => {
               type="submit"
               className="bg-[#B29B4E] text-white w-full px-6 py-2 mt-4 rounded-lg"
             >
-              {isEditing ? "Save Event" : "Add Event"}
+              {isCreating
+                ? "Adding Event..."
+                : isUpdating
+                ? "Updating Event..."
+                : isEditing
+                ? "Save Update"
+                : "Add Event"}
             </button>
           </div>
         </section>
