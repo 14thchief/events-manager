@@ -195,7 +195,7 @@ const EventForm: React.FC = () => {
               value={formData.event}
               onChange={handleChange}
               placeholder="Add Event Title"
-              className="border p-2 rounded-lg w-full"
+              className="border p-2 rounded-lg w-full focus:outline-primary"
               required
             />
 
@@ -205,20 +205,20 @@ const EventForm: React.FC = () => {
               value={formData.segment}
               onChange={handleChange}
               placeholder="Add Event Segment"
-              className="border p-2 rounded-lg w-full"
+              className="border p-2 rounded-lg w-full focus:outline-primary"
               required
             />
 
             <div className="flex gap-4">
               <DatePicker
-                className="w-full"
+                className="w-full focus:outline-primary"
                 label="Start Date"
                 name="start_date"
                 timestamp={formData.start_date}
                 onChange={handleDateChange}
               />
               <DatePicker
-                className="w-full"
+                className="w-full focus:outline-primary"
                 label="End Date"
                 name="end_date"
                 timestamp={formData.end_date}
@@ -232,7 +232,7 @@ const EventForm: React.FC = () => {
               value={formData.city}
               onChange={handleChange}
               placeholder="Add Location"
-              className="border p-2 rounded-lg w-full"
+              className="border p-2 rounded-lg w-full focus:outline-primary"
               required
             />
 
@@ -244,7 +244,7 @@ const EventForm: React.FC = () => {
               value={formData.hotel_cost}
               onChange={(e) => handleChange(e, e.target.valueAsNumber)}
               placeholder="Add Price"
-              className="border p-2 rounded-lg w-full"
+              className="border p-2 rounded-lg w-full focus:outline-primary"
               required
             />
 

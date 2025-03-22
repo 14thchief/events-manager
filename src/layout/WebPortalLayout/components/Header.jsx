@@ -1,4 +1,6 @@
-function Header({ openMenu, setOpenMenu }) {
+import { Link } from "react-router";
+
+function Header({ openMenu, setOpenMenu, isUser }) {
   return (
     <div className="hero bg-blend-multiply bg-black bg-opacity-[0.3] h-[60vh] md:h-[99vh]">
       <header className="lg:max-w-[1240px] mx-auto header-wrap bg-transparent text-white">
@@ -94,12 +96,12 @@ function Header({ openMenu, setOpenMenu }) {
             >
               Explore our properties
             </a>
-            <a
-              href="/auth/cms"
+            <Link
+              to={"/auth/cms"}
               className="button btn-signin bg-transparent border border-white text-white hover:text-gray-400 px-4 py-3 rounded transition"
             >
-              Sign In
-            </a>
+              {isUser ? "Portal" : "Sign In"}
+            </Link>
           </div>
         </div>
 

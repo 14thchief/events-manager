@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { useLoginMutation } from "../../../redux/features/auth/cmsAuthSlice";
 import { SigninPayload } from "../../../redux/features/auth/types/loginType";
 import { toast } from "react-toastify";
@@ -23,6 +23,7 @@ const loginSchema = yup.object().shape({
 const LoginUI: React.FC<LoginUIProps> = ({ setAuthState }) => {
   const [login, { isLoading }] = useLoginMutation();
   const navigate = useNavigate();
+  const userInSession = Boolean(sessionStorage.getItem("token"));
 
   const {
     register,
@@ -50,6 +51,9 @@ const LoginUI: React.FC<LoginUIProps> = ({ setAuthState }) => {
 
   return (
     <div className="w-full max-w-sm md:max-w-md h-max">
+      {userInSession && <Navigate to={"/cms/events"} replace />}
+
+      {/* Logo */}
       <div className="flex flex-col md:gap-10 mb-8">
         <h1 className="text-2xl md:text-[55px] font-[600] text-gray-800">
           Login

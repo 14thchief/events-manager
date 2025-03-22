@@ -9,6 +9,7 @@ import SelectedEvents from "./components/SelectedEvents";
 import EventList from "./components/EventList";
 
 const API_BASE = "https://api.aplbcevents.com:8080";
+const isUser = Boolean(sessionStorage.getItem("token"));
 
 function WebPortalLayout() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -80,7 +81,7 @@ function WebPortalLayout() {
 
   return (
     <div className="w-full max-w-full">
-      <Header openMenu={openMenu} setOpenMenu={setOpenMenu} />
+      <Header openMenu={openMenu} setOpenMenu={setOpenMenu} isUser={isUser} />
       <EventFilter
         month={month}
         setMonth={setMonth}

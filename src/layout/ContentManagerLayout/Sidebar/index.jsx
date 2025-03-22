@@ -69,7 +69,7 @@ const Sidebar = (props) => {
         <div className={styles.routes}>
           <div className={`${styles.logoContainer} pr-2`}>
             <div className={styles.logo}>
-              <Link to="/cm">
+              <Link to="/web-portal">
                 <img src={logo} alt="logo" />
               </Link>
             </div>
@@ -86,7 +86,7 @@ const Sidebar = (props) => {
             <h1 className="text-[20px] text-white">APLBC CMS PORTAL</h1>
 
             <button
-              onClick={() => null}
+              onClick={() => navigate("/web-portal")}
               className="flex items-center justify-center gap-4 w-[157px] h-[36px] py-2 px-4 rounded bg-white text-black font-[400]"
             >
               <BsGlobe size={20} />

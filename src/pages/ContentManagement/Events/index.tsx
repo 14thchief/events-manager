@@ -234,22 +234,39 @@ const Events = () => {
     <PageLayout
       title="Events"
       actions={[
+        <Button
+          onClick={() => navigate("/cms/events/create")}
+          key={"add_event"}
+          text="Add event"
+          icon={<Add />}
+        />,
+      ]}
+    >
+      <div className="flex gap-4 my-2 items-center justify-start">
+        <input
+          type="text"
+          name="event"
+          value={searchTerm}
+          onChange={({ target }) => setSearchTerm(target.value)}
+          placeholder="Search Events Name"
+          className="border p-2 rounded-lg w-[300px] font-normal focus:outline-primary"
+        />
         <select
           name="type"
           value={type}
           onChange={({ target }) => setType(target.value)}
-          className="border p-2 rounded-lg w-full lg:w-[300px] font-normal focus:outline-primary"
+          className="border p-2.5 rounded-lg w-max lg:w-[300px] font-normal focus:outline-primary"
           required
         >
           <option value="">Select Type</option>
           <option value="APLBC representation">APLBC Representation</option>
           <option value="Hotel attendance">Hotel Attendance</option>
-        </select>,
+        </select>
         <select
           name="region"
           value={region}
           onChange={({ target }) => setRegion(target.value)}
-          className="border p-2 rounded-lg w-full font-normal focus:outline-primary"
+          className="border p-2.5 rounded-lg w-max font-normal focus:outline-primary"
           required
         >
           <option value="">Select Region</option>
@@ -258,12 +275,12 @@ const Events = () => {
               {item}
             </option>
           ))}
-        </select>,
+        </select>
         <select
           name="coupon_id"
           value={couponId}
           onChange={({ target }) => setCouponId(Number(target.value))}
-          className="border p-2 rounded-lg w-full font-normal focus:outline-primary"
+          className="border p-2.5 rounded-lg w-max font-normal focus:outline-primary"
           disabled={isCouponsLoading}
         >
           <option value={0}>
@@ -274,15 +291,8 @@ const Events = () => {
               {item.code}
             </option>
           ))}
-        </select>,
-        <Button
-          onClick={() => navigate("/cms/events/create")}
-          key={"add_event"}
-          text="Add event"
-          icon={<Add />}
-        />,
-      ]}
-    >
+        </select>
+      </div>
       <Table
         headerTitle={
           selectedEvents?.length
