@@ -7,7 +7,7 @@ import {
 import TableDropdownActions from "../../../components/Table/TableDropdownActions";
 import StatusBadge from "../../../components/StatusBadge";
 import { Add, Edit, Eye, Trash } from "../../../assets/icons/icons";
-import { mS } from "../../../constants";
+import { mS, regions } from "../../../constants";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { formatCurrency } from "../../../utilities/formatCurrency";
@@ -19,13 +19,28 @@ import { TableColumn } from "../../../components/Table/types";
 import { Status } from "../../../components/StatusBadge/types";
 import { useDispatch } from "react-redux";
 import { openActionModal } from "../../../redux/features/util/actionModalSlice";
+import Select from "../../../components/Forms/Select";
+import { useGetCouponsQuery } from "../../../redux/features/cms/couponSlice";
 
 const Events = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data: events, isLoading: isEventsLoading } = useGetEventsQuery();
   const memoizedEvents = useMemo(() => events, [events]);
+  const { data: coupons, isLoading: isCouponsLoading } = useGetCouponsQuery();
+  const memoizedCoupons = useMemo(() => coupons, [coupons]);
+
   const [selectedEvents, setSelectedEvents] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [region, setRegion] = useState("");
+  const [type, setType] = useState("");
+  const [couponId, setCouponId] = useState(0);
+
+  const filteredEvents = memoizedEvents
+    ?.filter((event) => event.event?.includes(searchTerm))
+    ?.filter((event) => event.type?.includes(type))
+    ?.filter((event) => event.region?.includes(region))
+    ?.filter((event) => event.coupon_id == couponId || couponId == 0);
 
   const [deleteEvent] = useDeleteEventMutation();
   const handleDelete = (id: number) => {
@@ -219,6 +234,47 @@ const Events = () => {
     <PageLayout
       title="Events"
       actions={[
+        <select
+          name="type"
+          value={type}
+          onChange={({ target }) => setType(target.value)}
+          className="border p-2 rounded-lg w-full lg:w-[300px] font-normal focus:outline-primary"
+          required
+        >
+          <option value="">Select Type</option>
+          <option value="APLBC representation">APLBC Representation</option>
+          <option value="Hotel attendance">Hotel Attendance</option>
+        </select>,
+        <select
+          name="region"
+          value={region}
+          onChange={({ target }) => setRegion(target.value)}
+          className="border p-2 rounded-lg w-full font-normal focus:outline-primary"
+          required
+        >
+          <option value="">Select Region</option>
+          {regions.map((item, i) => (
+            <option key={i} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>,
+        <select
+          name="coupon_id"
+          value={couponId}
+          onChange={({ target }) => setCouponId(Number(target.value))}
+          className="border p-2 rounded-lg w-full font-normal focus:outline-primary"
+          disabled={isCouponsLoading}
+        >
+          <option value={0}>
+            {isCouponsLoading ? "Loading..." : "Select Coupon"}
+          </option>
+          {memoizedCoupons?.map((item, i) => (
+            <option key={i} value={item.id}>
+              {item.code}
+            </option>
+          ))}
+        </select>,
         <Button
           onClick={() => navigate("/cms/events/create")}
           key={"add_event"}
@@ -233,7 +289,7 @@ const Events = () => {
             ? `${selectedEvents?.length} Event(s) Selected`
             : ""
         }
-        data={memoizedEvents ?? []}
+        data={filteredEvents ?? []}
         columns={columns}
         selectable={true}
         onSelectionChange={setSelectedEvents}

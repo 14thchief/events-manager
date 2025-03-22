@@ -1,6 +1,6 @@
 const clearStore = () => {
-	localStorage.clear();
-	sessionStorage.clear();
+  sessionStorage.clear();
+  sessionStorage.clear();
 };
 
 export default clearStore;

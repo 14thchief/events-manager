@@ -1,41 +1,66 @@
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { useNavigate } from "react-router";
+import { useLoginMutation } from "../../../redux/features/auth/cmsAuthSlice";
+import { SigninPayload } from "../../../redux/features/auth/types/loginType";
+import { toast } from "react-toastify";
 
-const LoginUI = ({ login, isLoading, setAuthState }) => {
+// Define types for component props
+interface LoginUIProps {
+  setAuthState: (state: string) => void;
+}
+
+// Define validation schema using Yup
+const loginSchema = yup.object().shape({
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+});
+
+const LoginUI: React.FC<LoginUIProps> = ({ setAuthState }) => {
+  const [login, { isLoading }] = useLoginMutation();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SigninPayload>({
+    resolver: yupResolver(loginSchema),
+  });
+
+  // Handle form submission
+  const onSubmit = async (data: SigninPayload) => {
     try {
-      if (email && password) {
-        const response = await login({ email, password }).unwrap();
-        console.log({ response });
-        toast.success("Signed in successfully");
-        navigate("/cms/events");
-      }
-    } catch (err) {
-      setErrorMsg(err?.data?.message || "Login failed. Please try again.");
+      const response = await login(data).unwrap();
+
+      toast.success("Signed in successfully");
       navigate("/cms/events");
+    } catch (err: any) {
+      if (err?.status === 401) {
+        toast.error("Incorrect Email or Password. Please try again.");
+      } else {
+        toast.error(err?.data?.message || "Login failed. Please try again.");
+      }
     }
   };
 
   return (
     <div className="w-full max-w-sm md:max-w-md h-max">
       <div className="flex flex-col md:gap-10 mb-8">
-        <h1 className="text-2xl md:text-[55px] font-[600] text-gray-800 ">
+        <h1 className="text-2xl md:text-[55px] font-[600] text-gray-800">
           Login
         </h1>
         <p className="text-sm md:text-[24px] text-gray-500 font-[300]">
           Welcome back, please log in to your account
         </p>
-        {errorMsg && <p className="text-red-500 text-sm">{errorMsg}</p>}
       </div>
+
       {/* Login Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label
             htmlFor="email"
@@ -46,12 +71,15 @@ const LoginUI = ({ login, isLoading, setAuthState }) => {
           <input
             id="email"
             type="email"
-            required
+            {...register("email")}
             placeholder="Enter your email"
-            onChange={(e) => setEmail(e.target.value)}
             className="w-full p-3 rounded border-2 border-gray-200 focus:outline-none focus:border-primary"
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          )}
         </div>
+
         <div>
           <label
             htmlFor="password"
@@ -62,11 +90,13 @@ const LoginUI = ({ login, isLoading, setAuthState }) => {
           <input
             id="password"
             type="password"
-            required
+            {...register("password")}
             placeholder="Enter your password"
-            onChange={(e) => setPassword(e.target.value)}
             className="w-full p-3 rounded border-2 border-gray-200 focus:outline-none focus:border-primary"
           />
+          {errors.password && (
+            <p className="text-red-500 text-sm">{errors.password.message}</p>
+          )}
         </div>
 
         {/* Remember Me & Forgot Password */}
@@ -84,7 +114,9 @@ const LoginUI = ({ login, isLoading, setAuthState }) => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3 mt-2 rounded bg-primary text-white font-semibold hover:bg-[#a48d42] transition-colors"
+          className={`w-full py-3 mt-2 rounded bg-primary text-white font-semibold transition-colors ${
+            isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-[#a48d42]"
+          }`}
         >
           {isLoading ? "Logging in..." : "Login"}
         </button>
@@ -97,13 +129,12 @@ const LoginUI = ({ login, isLoading, setAuthState }) => {
         <hr className="flex-1 border-primary" />
       </div>
 
-      {/* Sign in with Google */}
+      {/* Sign Up Button */}
       <button
         onClick={() => setAuthState("signup")}
         type="button"
         className="bg-transparent w-full py-3 rounded border border-primary text-gray-400 flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors"
       >
-        {/* <FcGoogle size={18} /> */}
         <span>Sign Up</span>
       </button>
     </div>

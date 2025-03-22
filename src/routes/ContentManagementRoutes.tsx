@@ -3,8 +3,8 @@ import RouteWrapper from "./RouteWrapper";
 import Events from "../pages/ContentManagement/Events";
 import EventDetails from "../pages/ContentManagement/Events/EventDetail";
 import EventForm from "../pages/ContentManagement/Events/EventForm";
-import Coupons from "../pages/ContentManagement/Coupons";
-import CouponForm from "../pages/ContentManagement/Coupons/CouponForm";
+import Discounts from "../pages/ContentManagement/Discounts";
+import DiscountForm from "../pages/ContentManagement/Discounts/DiscountForm";
 
 const ContentManagementRoutes = () => {
   return (
@@ -24,9 +24,9 @@ const ContentManagementRoutes = () => {
         <Route path="events/:event" element={<EventDetails />} />
 
         {/* COUPON ROUTES */}
-        <Route path="coupons" element={<Coupons />} />
-        <Route path="coupons/create" element={<CouponForm />} />
-        <Route path="coupons/edit" element={<CouponForm />} />
+        <Route path="discount" element={<Discounts />} />
+        <Route path="discount/create" element={<DiscountForm />} />
+        <Route path="discount/edit" element={<DiscountForm />} />
       </Route>
     </Routes>
   );

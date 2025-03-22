@@ -6,15 +6,17 @@ import { openActionModal } from "../features/util/actionModalSlice";
 export const rtkQueryErrorLogger: Middleware =
   (api: MiddlewareAPI) => (next) => (action: any) => {
     // Ignore Errors from these endpoints
-    const whitelistedTags = ["getBusinessAPIKeys"];
-    const blockedErrorToast = whitelistedTags.includes(
+    const whitelistedTags = ["login"];
+    const blocked401Modal = whitelistedTags.includes(
       action.meta?.arg?.endpointName
     );
 
     if (isRejectedWithValue(action)) {
       // Assuming the error object has a status property or similar
       const error = action.payload;
-      if (error.status === 401) {
+      const hasRefreshToken = Boolean(sessionStorage.getItem("r_token"));
+
+      if (error.status === 401 && !blocked401Modal && !hasRefreshToken) {
         // Dispatch an action to set a global state or use a context to trigger redirection
         // This is a placeholder action. Replace it with your actual action to trigger redirection.
         api.dispatch({ type: "REDIRECT_TO_LOGIN" });
@@ -29,7 +31,10 @@ export const rtkQueryErrorLogger: Middleware =
             blockCancel: true,
           })
         );
-      } else if (error.status === 400 && !blockedErrorToast) {
+        console.warn(
+          "Received 401 error. Token refresh should handle this case."
+        );
+      } else if (error.status === 400) {
         toast.error(
           typeof error.data?.message == "string"
             ? error.data?.message

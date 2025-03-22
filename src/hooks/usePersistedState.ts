@@ -9,7 +9,7 @@ const usePersistedState = <T>({
 }) => {
   const [value, setValue] = useState<T>(() => {
     if (typeof window !== "undefined") {
-      const jsonValue = localStorage.getItem(storageKey);
+      const jsonValue = sessionStorage.getItem(storageKey);
 
       if (jsonValue) {
         return JSON.parse(jsonValue);
@@ -26,7 +26,7 @@ const usePersistedState = <T>({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      localStorage.setItem(storageKey, JSON.stringify(value));
+      sessionStorage.setItem(storageKey, JSON.stringify(value));
     }
   }, [storageKey, value]);
 

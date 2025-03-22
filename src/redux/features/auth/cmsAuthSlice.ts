@@ -1,14 +1,10 @@
 import authApi from "../../api/authApi";
-import {
-  ResetPasswordPayload,
-  SignedUser,
-  SigninPayload,
-} from "./types/loginType";
+import { AuthResponse, SignedUser, SigninPayload } from "./types/loginType";
 // import { toast } from "react-toastify";
 
 const cmsAuthSlice = authApi.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<SignedUser, SigninPayload>({
+    login: builder.mutation<AuthResponse["data"], SigninPayload>({
       query: (data) => ({
         url: "login",
         method: "POST",
@@ -16,14 +12,22 @@ const cmsAuthSlice = authApi.injectEndpoints({
           ...data,
         },
       }),
-      transformResponse: (response: { data: SignedUser }) => {
+      transformResponse: (response: AuthResponse) => {
         return response.data;
+      },
+      transformErrorResponse: (error) => {
+        return error;
       },
       onQueryStarted: async (_, { queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
-          localStorage.setItem("session_user", JSON.stringify(data));
-          localStorage.setItem("token", data.auth?.access_token);
+          sessionStorage.setItem("session_user", JSON.stringify(data.user));
+          sessionStorage.setItem("token", data.auth?.access_token);
+          sessionStorage.setItem("r_token", data.auth?.refresh_token);
+          sessionStorage.setItem(
+            "token_expires_at",
+            data.auth?.access_token_expires_at.toString()
+          );
         } catch (err: any) {
           // err.error.data.message && toast.error(typeof err.error?.data?.message === "string"? err.error.data.message : err.error.data.message[0]);
         }
@@ -40,17 +44,8 @@ const cmsAuthSlice = authApi.injectEndpoints({
       transformResponse: (response: { data: SignedUser }) => {
         return response.data;
       },
-      onQueryStarted: async (_, { queryFulfilled }) => {
-        try {
-          const { data } = await queryFulfilled;
-          localStorage.setItem("session_user", JSON.stringify(data));
-          localStorage.setItem("token", data.accessToken);
-        } catch (err: any) {
-          // err.error.data.message && toast.error(typeof err.error?.data?.message === "string"? err.error.data.message : err.error.data.message[0]);
-        }
-      },
     }),
-    sendResetLink: builder.mutation<SignedUser, SigninPayload["username"]>({
+    sendResetLink: builder.mutation<SignedUser, SigninPayload["email"]>({
       query: (data) => ({
         url: "auth/forgot-password",
         method: "POST",
@@ -62,7 +57,7 @@ const cmsAuthSlice = authApi.injectEndpoints({
         return response.data;
       },
     }),
-    resetPassword: builder.mutation<SignedUser, ResetPasswordPayload>({
+    resetPassword: builder.mutation<SignedUser, SigninPayload>({
       query: (data) => ({
         url: "auth/reset-password",
         method: "POST",
@@ -72,7 +67,7 @@ const cmsAuthSlice = authApi.injectEndpoints({
         return response.data;
       },
     }),
-    savePassword: builder.mutation<SignedUser, ResetPasswordPayload>({
+    savePassword: builder.mutation<SignedUser, SigninPayload>({
       query: (data) => ({
         url: "user/account-setup",
         method: "POST",

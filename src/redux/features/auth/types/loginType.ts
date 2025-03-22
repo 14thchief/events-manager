@@ -1,26 +1,27 @@
-import { Role } from "../../admin/types/roleManagementType";
-
 export type SigninPayload = {
-  username: string;
-  password: string;
-};
-
-export type SigninResponse = {
-  status: boolean;
-  message: string;
-  data: SignedUser;
-};
-
-export type SignedUser = {
-  accessToken: string;
-  firstName: string;
-  lastName: string;
   email: string;
-  role: Role;
+  password: string;
 };
 
-export type ResetPasswordPayload = {
-  password: string;
-  confirmPassword: string;
-  token: string;
-};
+export interface AuthResponse {
+  data: AuthData;
+}
+
+interface AuthData {
+  auth: Sign;
+  user: SignedUser;
+}
+
+interface Sign {
+  session_id: string;
+  access_token: string;
+  access_token_expires_at: number;
+  refresh_token: string;
+  refresh_token_expires_at: number;
+}
+
+export interface SignedUser {
+  full_name: string;
+  email: string;
+  role: string;
+}

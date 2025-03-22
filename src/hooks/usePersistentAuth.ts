@@ -6,7 +6,7 @@ const usePersistentAuth = () => {
     defaultValue: null,
     storageKey: "session_user",
   });
-  // const token = localStorage.getItem("token");
+  // const token = sessionStorage.getItem("token");
 
   return {
     // token,

@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/features/auth/util/logoutSlice";
 import usePersistentAuth from "../../../hooks/usePersistentAuth";
 import { openActionModal } from "../../../redux/features/util/actionModalSlice";
+import logo from "../../../assets/svg/aplbc_logo.svg";
+import { BsGlobe } from "react-icons/bs";
 
 const Sidebar = (props) => {
   const navigate = useNavigate();
@@ -68,7 +70,7 @@ const Sidebar = (props) => {
           <div className={`${styles.logoContainer} pr-2`}>
             <div className={styles.logo}>
               <Link to="/cm">
-                <p>LOGO</p>
+                <img src={logo} alt="logo" />
               </Link>
             </div>
             {isMobile && (
@@ -79,6 +81,17 @@ const Sidebar = (props) => {
                 <BiX size={32} />
               </button>
             )}
+          </div>
+          <div className="space-y-4 mt-2 mb-4 xl:mb-8 pl-[1rem]">
+            <h1 className="text-[20px] text-white">APLBC CMS PORTAL</h1>
+
+            <button
+              onClick={() => null}
+              className="flex items-center justify-center gap-4 w-[157px] h-[36px] py-2 px-4 rounded bg-white text-black font-[400]"
+            >
+              <BsGlobe size={20} />
+              Visit site
+            </button>
           </div>
 
           <ul className={styles.sidebar_routes}>
@@ -103,7 +116,7 @@ const Sidebar = (props) => {
             <div className={styles.user_link}>
               <UserAvatar size={32} className={styles.profileIcon} />
               <div className={styles.username}>
-                <p className={styles.email}>{sessionUser?.user?.email ?? ""}</p>
+                <p className={styles.email}>{sessionUser?.email ?? ""}</p>
               </div>
             </div>
 

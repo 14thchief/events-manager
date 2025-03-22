@@ -79,11 +79,11 @@ const CouponForm: React.FC = () => {
               type: "success",
               title: "Coupon Updated Successfully",
               content: <p>Coupon successfully updated!</p>,
-              callback: () => navigate("/cms/coupons"),
+              callback: () => navigate("/cms/discount"),
               callbackText: "Continue",
             })
           );
-          // navigate("/cms/coupons");
+          // navigate("/cms/discount");
         })
         .catch((error) => console.error(error));
     } else {
@@ -96,11 +96,11 @@ const CouponForm: React.FC = () => {
               type: "success",
               title: "Coupon",
               content: <p>Coupon successfully created!</p>,
-              callback: () => navigate("/cms/coupons"),
+              callback: () => navigate("/cms/discount"),
               callbackText: "Continue",
             })
           );
-          // navigate("/cms/coupons");
+          // navigate("/cms/discount");
         })
         .catch((error) => console.error(error));
     }
@@ -110,14 +110,14 @@ const CouponForm: React.FC = () => {
     <div className="px-6 min-w-full flex flex-col gap-6 max-w-3xl mx-auto py-8">
       <div className="flex justify-between">
         <Link
-          to="/cms/coupons"
+          to="/cms/discount"
           className="flex items-center gap-2 text-gray-700 hover:text-yellow-600"
         >
           <BiLeftArrow /> Back
         </Link>
         <button
           type="button"
-          onClick={() => navigate("/cms/coupons")}
+          onClick={() => navigate("/cms/discount")}
           className="bg-gray-200 text-black px-6 py-2 rounded-lg"
         >
           Cancel

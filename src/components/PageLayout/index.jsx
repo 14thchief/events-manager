@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 
 const PageLayout = (props) => {
   return (
-    <div className={`${styles.container} ${screen && styles.screen}`}>
+    <div className={`${styles.container} ${props.screen && styles.screen}`}>
       {props?.title && (
         <section className={styles.header_container}>
           <Header

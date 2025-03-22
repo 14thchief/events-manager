@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import AccordionUI from "../../../components/AccordionUI";
 import { fields, mS } from "../../../constants.tsx";
 import { Link, useLocation } from "react-router";
 import { BiLeftArrow } from "react-icons/bi";
 import { formatCurrency } from "../../../utilities/formatCurrency";
+import { useGetCouponsQuery } from "../../../redux/features/cms/couponSlice";
 
 const EventDetails = () => {
   const { state } = useLocation();
   const data = state?.event;
+  const { data: coupons } = useGetCouponsQuery();
+  const memoizedCoupons = useMemo(() => coupons, [coupons]);
+  const eventCoupon = memoizedCoupons?.find(
+    (coupon) => coupon.id === data.coupon_id
+  );
 
   const collapsibleFields = fields.filter((x) => data?.[x.key]);
 
@@ -112,7 +118,7 @@ const EventDetails = () => {
           <div className="space-y-1">
             <p className="text-gray-700 font-medium">Coupon Code</p>
             <div className="bg-[#B29B4E] text-white p-2 rounded-lg font-bold">
-              000000
+              {eventCoupon?.code ?? "N/A"}
             </div>
           </div>
         </section>

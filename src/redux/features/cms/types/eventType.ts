@@ -24,4 +24,5 @@ export interface Event {
   roadshow: string;
   strategic_locations: string;
   potential_clients: string;
+  coupon_id: string | number;
 }

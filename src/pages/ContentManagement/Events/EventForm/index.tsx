@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { BiLeftArrow } from "react-icons/bi";
 import { regions } from "../../../../constants";
@@ -11,6 +11,7 @@ import {
 } from "../../../../redux/features/cms/eventSlice";
 import { useDispatch } from "react-redux";
 import { openActionModal } from "../../../../redux/features/util/actionModalSlice";
+import { useGetCouponsQuery } from "../../../../redux/features/cms/couponSlice";
 
 // List of keys representing individual detail fields in edit mode.
 export const detailKeys = [
@@ -39,7 +40,7 @@ interface EventFormState {
   hotel_cost: number;
   type: string;
   region: string;
-  coupon: string;
+  coupon_id: string | number;
   details: Detail[];
 }
 
@@ -56,6 +57,8 @@ const EventForm: React.FC = () => {
   const dispatch = useDispatch();
   const { state } = useLocation();
   const isEditing = Boolean(state?.event);
+  const { data: coupons, isLoading: isCouponsLoading } = useGetCouponsQuery();
+  const memoizedCoupons = useMemo(() => coupons, [coupons]);
 
   const initialData = state?.event
     ? {
@@ -72,7 +75,7 @@ const EventForm: React.FC = () => {
         hotel_cost: "",
         type: "",
         region: "",
-        coupon: "",
+        coupon_id: 0,
         details: [] as Detail[],
       };
 
@@ -162,7 +165,7 @@ const EventForm: React.FC = () => {
     });
 
   return (
-    <div className="px-6 min-w-full flex flex-col gap-6 max-w-3xl mx-auto py-8">
+    <div className="px-6 min-w-full moin-h-full flex flex-col gap-6 mx-auto">
       <div className="flex justify-between">
         <Link
           to="/cms/events"
@@ -288,7 +291,7 @@ const EventForm: React.FC = () => {
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
-                className="border p-2 rounded-lg w-full lg:w-[300px] font-normal"
+                className="border p-2 rounded-lg w-full lg:w-[300px] font-normal focus:outline-primary"
                 required
               >
                 <option value="">Select Type</option>
@@ -304,7 +307,7 @@ const EventForm: React.FC = () => {
                 name="region"
                 value={formData.region}
                 onChange={handleChange}
-                className="border p-2 rounded-lg w-full font-normal"
+                className="border p-2 rounded-lg w-full font-normal focus:outline-primary"
                 required
               >
                 <option value="">Select Region</option>
@@ -319,12 +322,20 @@ const EventForm: React.FC = () => {
             <label className="flex flex-col gap-2 font-semibold">
               Select Coupon
               <select
-                name="coupon"
-                value={formData.coupon}
-                onChange={handleChange}
-                className="border p-2 rounded-lg w-full font-normal"
+                name="coupon_id"
+                value={formData.coupon_id}
+                onChange={(e) => handleChange(e, Number(e.target.value))}
+                className="border p-2 rounded-lg w-full font-normal focus:outline-primary"
+                disabled={isCouponsLoading}
               >
-                <option value="">Select Coupon</option>
+                <option value={0}>
+                  {isCouponsLoading ? "Loading..." : "Select Coupon"}
+                </option>
+                {memoizedCoupons?.map((item, i) => (
+                  <option key={i} value={item.id}>
+                    {item.code}
+                  </option>
+                ))}
               </select>
             </label>
             <button

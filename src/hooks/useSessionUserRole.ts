@@ -3,7 +3,7 @@ import { getModulePermissions } from "src/utilities/permissionBasedAccess";
 
 export const useSessionUserRole = (prop?: { searchPermission?: string }) => {
   const userRole = JSON.parse(
-    localStorage.getItem("session_user") as string
+    sessionStorage.getItem("session_user") as string
   )?.role;
 
   const unfilteredPermissions: string[] =

@@ -81,7 +81,6 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({
     onClose();
   };
 
-  console.log({ localDetails });
   return (
     <Modal open={isOpen} onClose={onClose}>
       <div className="flex flex-col gap-4 bg-transparent rounded-lg min-w-[90vw] md:min-w-[60vw] lg:min-w-[40vw] p-6">
@@ -122,7 +121,7 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({
           <select
             value={newDetailType}
             onChange={(e) => setNewDetailType(e.target.value)}
-            className="border rounded p-2 flex-1 capitalize"
+            className="border rounded p-2 flex-1 capitalize focus:outline-primary"
           >
             <option value="">Select detail type</option>
             {filteredDetailTypes.map((option, i) => (

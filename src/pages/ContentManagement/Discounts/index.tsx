@@ -17,10 +17,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import Button from "../../../components/Button";
 import { Coupon } from "../../../redux/features/cms/types/couponType";
 import { TableColumn } from "../../../components/Table/types";
-import { Status } from "../../../components/StatusBadge/types";
 import { useDispatch } from "react-redux";
 import { openActionModal } from "../../../redux/features/util/actionModalSlice";
-import { ToggleButton } from "@mui/material";
+import SwitchToggle from "../../../components/SwitchToggle";
 
 const Coupons = () => {
   const dispatch = useDispatch();
@@ -47,7 +46,7 @@ const Coupons = () => {
                   type: "success",
                   title: "Coupon Deleted",
                   content: <p>Coupon successfully deleted!</p>,
-                  callback: () => navigate("/cms/coupons"),
+                  callback: () => navigate("/cms/discount"),
                   callbackText: "Close",
                 })
               );
@@ -65,7 +64,6 @@ const Coupons = () => {
     id: Coupon["id"],
     status: Coupon["status"]
   ) => {
-    console.log({ id, status });
     editCoupon({ id, status })
       .unwrap()
       .catch((err) => console.error(err));
@@ -145,10 +143,11 @@ const Coupons = () => {
       cell: ({ getValue, row }) => {
         const status = getValue() as Coupon["status"] | undefined;
         const newStatus = status === "active" ? "inactive" : "active";
+        const checked = (getValue() as Coupon["status"]) === "active";
         return (
-          <ToggleButton
-            value={true}
-            defaultChecked={false}
+          <SwitchToggle
+            checked={checked}
+            slotProps={{ input: { "aria-label": "controlled" } }}
             onChange={() =>
               handleToggleCouponStatus(row.original.id, newStatus)
             }
@@ -164,25 +163,6 @@ const Coupons = () => {
         <div style={{ display: "flex", alignItems: "center" }}>
           <TableDropdownActions
             actions={[
-              {
-                label: "Edit",
-                icon: <Edit size={16} />,
-                customComponent: (
-                  <p
-                    onClick={() => {
-                      navigate(`/cms/coupons/edit`, {
-                        state: {
-                          coupon: row.original,
-                        },
-                      });
-                    }}
-                    className="cursor-pointer hover:bg-gray-50 transition transition-bg flex items-center gap-2 p-2"
-                  >
-                    <Edit size={16} />
-                    Edit
-                  </p>
-                ),
-              },
               {
                 label: "Deactivate",
                 icon: <Trash size={18} />,
@@ -209,7 +189,7 @@ const Coupons = () => {
       title="Coupons"
       actions={[
         <Button
-          onClick={() => navigate("/cms/coupons/create")}
+          onClick={() => navigate("/cms/discount/create")}
           key={"add_coupon"}
           text="Add coupon"
           icon={<Add />}

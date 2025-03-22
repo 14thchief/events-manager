@@ -13,12 +13,11 @@ const SignupUI = ({ signup, isLoading, setAuthState }) => {
     e.preventDefault();
     try {
       if (fullName && email && password) {
-        const response = await signup({
+        await signup({
           full_name: fullName,
           email,
           password,
         }).unwrap();
-        console.log({ response });
         navigate("/cms/events");
       }
     } catch (err) {

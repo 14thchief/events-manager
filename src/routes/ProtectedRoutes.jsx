@@ -5,7 +5,7 @@ const ProtectedRoutes = () => {
   const location = useLocation();
 
   const currentPath = location.pathname;
-  const isLoggedIn = !!localStorage.getItem("token");
+  const isLoggedIn = !!sessionStorage.getItem("token");
 
   const pathAccess = sidebarData.topRoutes
     .concat(sidebarData.bottomRoutes)
