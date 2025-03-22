@@ -37,7 +37,9 @@ const Events = () => {
   const [couponId, setCouponId] = useState(0);
 
   const filteredEvents = memoizedEvents
-    ?.filter((event) => event.event?.includes(searchTerm))
+    ?.filter((event) =>
+      event.event?.toLowerCase()?.includes(searchTerm?.toLowerCase())
+    )
     ?.filter((event) => event.type?.includes(type))
     ?.filter((event) => event.region?.includes(region))
     ?.filter((event) => event.coupon_id == couponId || couponId == 0);
