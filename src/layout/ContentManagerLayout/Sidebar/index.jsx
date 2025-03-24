@@ -4,13 +4,14 @@ import { sidebarData } from "./data";
 import { useEffect } from "react";
 import { BiX } from "react-icons/bi";
 import useGetWindowDimension from "../../../hooks/useGetWindowDimension";
-import { Logout, UserAvatar } from "../../../assets/icons/icons";
+import { Logout, Settings } from "../../../assets/icons/icons";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/features/auth/util/logoutSlice";
 import usePersistentAuth from "../../../hooks/usePersistentAuth";
 import { openActionModal } from "../../../redux/features/util/actionModalSlice";
 import logo from "../../../assets/svg/aplbc_logo.svg";
 import { BsGlobe } from "react-icons/bs";
+import placeholderDP from "../../../assets/images/placeholder_profile.png";
 
 const Sidebar = (props) => {
   const navigate = useNavigate();
@@ -109,22 +110,35 @@ const Sidebar = (props) => {
             )}
           </ul>
         </div>
-        <div className={styles.static_routes}>
-          <hr className={styles.line} />
-
-          <div className={styles.user}>
-            <div className={styles.user_link}>
-              <UserAvatar size={32} className={styles.profileIcon} />
-              <div className={styles.username}>
-                <p className={styles.email}>{sessionUser?.email ?? ""}</p>
+        <div className={`shadow-2xl shadow-black w-full`}>
+          <div className={`p-2 pb-6 flex flex-col gap-2`}>
+            <div className={`flex items-center gap-4 text-white`}>
+              <div className="w-[78px] h-[78px] rounded-full overflow-hidden flex items-center justify-center">
+                <img src={placeholderDP} alt={"profile"} />
+              </div>
+              <div className={`flex flex-col`}>
+                <p className={`text-[20px]`}>{sessionUser?.full_name ?? ""}</p>
+                <p className={`text-[12px] font-[300]`}>
+                  {sessionUser?.email ?? ""}
+                </p>
               </div>
             </div>
 
-            <Logout
-              size={20}
-              className={styles.logout}
+            <div
+              onClick={() => null}
+              className="flex items-center gap-4 text-white text-[16px] p-2 max-w-max cursor-pointer"
+            >
+              <Settings size={20} className={styles.logout} />
+              Settings
+            </div>
+
+            <div
+              className="flex items-center gap-4 text-white text-[16px] p-2 max-w-max cursor-pointer"
               onClick={handleLogout}
-            />
+            >
+              <Logout size={20} className={styles.logout} />
+              Logout
+            </div>
           </div>
         </div>
       </div>

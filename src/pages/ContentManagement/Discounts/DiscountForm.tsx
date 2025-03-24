@@ -243,7 +243,7 @@ const CouponForm: React.FC = () => {
             </label>
             <button
               type="submit"
-              className="bg-[#B29B4E] text-white w-full px-6 py-2 mt-4 rounded-lg"
+              className="bg-[#B29B4E] text-white w-full px-6 py-4 mt-4 rounded-lg"
             >
               {isEditing ? "Update Coupon" : "Create Coupon"}
             </button>

@@ -59,6 +59,9 @@ const EventForm: React.FC = () => {
   const isEditing = Boolean(state?.event);
   const { data: coupons, isLoading: isCouponsLoading } = useGetCouponsQuery();
   const memoizedCoupons = useMemo(() => coupons, [coupons]);
+  const activeCoupons = memoizedCoupons?.filter(
+    (coupon) => coupon.status === "active"
+  );
 
   const initialData = state?.event
     ? {
@@ -331,7 +334,7 @@ const EventForm: React.FC = () => {
                 <option value={0}>
                   {isCouponsLoading ? "Loading..." : "Select Coupon"}
                 </option>
-                {memoizedCoupons?.map((item, i) => (
+                {activeCoupons?.map((item, i) => (
                   <option key={i} value={item.id}>
                     {item.code}
                   </option>
@@ -340,7 +343,7 @@ const EventForm: React.FC = () => {
             </label>
             <button
               type="submit"
-              className="bg-[#B29B4E] text-white w-full px-6 py-2 mt-4 rounded-lg"
+              className="bg-[#B29B4E] text-white w-full px-6 py-4 mt-4 rounded-lg"
             >
               {isCreating
                 ? "Adding Event..."
