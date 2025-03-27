@@ -7,8 +7,8 @@ import LineChartComponent from "../../../components/Charts/LineChart";
 const Dashboard = () => {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-4">
-        <div className="flex max-w-[560px] flex-wrap items-center gap-4">
+      <div className="flex flex-wrap gap-4">
+        <div className="flex-1 flex max-w-[560px] flex-wrap items-center gap-4">
           <DashboardCard
             title={"$200"}
             description={"Total No of Registration"}
@@ -34,7 +34,7 @@ const Dashboard = () => {
             bgColor={"#D8BD648A"}
           />
         </div>
-        <div className="rounded-lg shadow-lg border flex-1 flex flex-col max-w-[560px] p-4 bg-white">
+        <div className="rounded-lg shadow-lg border flex-1 flex flex-col h-max max-w-[560px] min-w-[320px] lg:min-w-max p-4 bg-white">
           <div className="w-full h-max">
             <p className="font-[400]">Revenue Growth</p>
             <h2 className="text-[24px] font-bold">{"$18,000"}</h2>
