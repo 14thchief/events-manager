@@ -1,10 +1,12 @@
 import listIcon from "../../../assets/svg/list-icon.svg";
 import discountIcon from "../../../assets/svg/discount-icon.svg";
 import ImageIcon from "../../../components/Icon";
-import { Analytics, BiUser } from "../../../assets/icons/icons";
 import { RiContactsLine } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
 import { MdOutlinePayments } from "react-icons/md";
+import { TbUserShield } from "react-icons/tb";
+import { CiUser } from "react-icons/ci";
+import { GrUserSettings } from "react-icons/gr";
 
 export const sidebarData = {
   topRoutes: [
@@ -24,7 +26,7 @@ export const sidebarData = {
     },
     {
       title: "Contact",
-      icon: <BiUser size={20} />,
+      icon: <CiUser size={20} />,
       path: "/cms/contacts",
       access: "*",
       permissionName: "contacts",
@@ -38,17 +40,24 @@ export const sidebarData = {
     },
     {
       title: "Discount",
-      icon: <ImageIcon imageSrc={discountIcon} size={20} />,
+      icon: <ImageIcon imageSrc={discountIcon} size={18} />,
       path: "/cms/discount",
       access: "*",
       permissionName: "discount",
     },
     {
-      title: "Analytics",
-      icon: <Analytics size={22} />,
-      path: "/cms/analytics",
+      title: "Agents",
+      icon: <TbUserShield size={24} />,
+      path: "/cms/agents",
       access: "*",
-      permissionName: "analytics",
+      permissionName: "users",
+    },
+    {
+      title: "Users",
+      icon: <GrUserSettings size={20} />,
+      path: "/cms/users",
+      access: "*",
+      permissionName: "users",
     },
     {
       title: "Payments",

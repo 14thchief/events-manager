@@ -12,6 +12,8 @@ import { openActionModal } from "../../../redux/features/util/actionModalSlice";
 import logo from "../../../assets/svg/aplbc_logo.svg";
 import { BsGlobe } from "react-icons/bs";
 import placeholderDP from "../../../assets/images/placeholder_profile.png";
+import ImageIcon from "../../../components/Icon";
+import stayCollection from "../../../assets/svg/stay-collection.svg";
 
 const Sidebar = (props) => {
   const navigate = useNavigate();
@@ -65,11 +67,11 @@ const Sidebar = (props) => {
       <div
         className={`shadow-lg ${styles.sidebar} ${
           !isMobile ? "" : props.open ? styles.open : styles.closed
-        }`}
+        } !gap-4`}
       >
-        <div className={styles.routes}>
+        <div className="h-[190px] shadow space-y-4 p-6">
           <div className={`${styles.logoContainer} pr-2`}>
-            <div className={styles.logo}>
+            <div className={`${styles.logo} !p-0`}>
               <Link to="/web-portal">
                 <img src={logo} alt="logo" />
               </Link>
@@ -83,18 +85,15 @@ const Sidebar = (props) => {
               </button>
             )}
           </div>
-          <div className="space-y-4 mt-2 mb-4 xl:mb-8 pl-[1rem]">
-            <h1 className="text-[20px] text-white">APLBC CMS PORTAL</h1>
-
-            <button
-              onClick={() => navigate("/web-portal")}
-              className="flex items-center justify-center gap-4 w-[157px] h-[36px] py-2 px-4 rounded bg-white text-black font-[400]"
-            >
-              <BsGlobe size={20} />
-              Visit site
-            </button>
-          </div>
-
+          <button
+            onClick={() => navigate("/web-portal")}
+            className="flex items-center justify-start gap-4 w-[157px] h-[36px] p-0 rounded bg-transparent text-white font-[400]"
+          >
+            <BsGlobe size={20} />
+            Visit site
+          </button>
+        </div>
+        <div className={`${styles.routes} `}>
           <ul className={styles.sidebar_routes}>
             {permittedSidebarRoutes.map(
               ({ title, icon, path }, index) =>
@@ -109,8 +108,18 @@ const Sidebar = (props) => {
                 )
             )}
           </ul>
+          <button
+            onClick={() => null}
+            className="flex items-center justify-center gap-4 max-w-[237px] my-8 bg-[#E4474E] text-white"
+          >
+            <ImageIcon imageSrc={stayCollection} size={18} /> Stay Collection
+          </button>
         </div>
-        <div className={`shadow-2xl shadow-black w-full`}>
+
+        {/**Bottom Sticky */}
+        <div
+          className={`sticky bottom-0 bg-primary shadow-2xl shadow-black w-full`}
+        >
           <div className={`p-2 pb-6 flex flex-col gap-2`}>
             <div className={`flex items-center gap-4 text-white`}>
               <div className="w-[78px] h-[78px] rounded-full overflow-hidden flex items-center justify-center">
