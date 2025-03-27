@@ -9,6 +9,7 @@ import Contacts from "../pages/ContentManagement/Contacts";
 import ContactForm from "../pages/ContentManagement/Contacts/Form";
 import Leads from "../pages/ContentManagement/Leads";
 import LeadForm from "../pages/ContentManagement/Leads/Form";
+import Dashboard from "../pages/ContentManagement/Dashboard";
 
 const ContentManagementRoutes = () => {
   return (
@@ -21,6 +22,9 @@ const ContentManagementRoutes = () => {
           </RouteWrapper>
         }
       >
+        {/* DASHBOARD ROUTES */}
+        <Route path="dashboard" element={<Dashboard />} />
+
         {/* EVENT ROUTES */}
         <Route path="events" element={<Events />} />
         <Route path="events/create" element={<EventForm />} />
