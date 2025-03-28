@@ -93,7 +93,7 @@ const Sidebar = (props) => {
             Visit site
           </button>
         </div>
-        <div className={`${styles.routes} `}>
+        <div className={`${styles.routes} h-full`}>
           <ul className={styles.sidebar_routes}>
             {permittedSidebarRoutes.map(
               ({ title, icon, path }, index) =>
