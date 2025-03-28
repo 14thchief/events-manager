@@ -55,8 +55,8 @@ const RevenueGrowthCard: React.FC = () => {
   };
 
   return (
-    <div className="rounded-lg shadow-lg border flex-1 flex flex-col h-max max-w-full xl:max-w-[560px] 2xl:max-w-full min-w-[320px] p-4 bg-white">
-      <div className="flex gap-4">
+    <div className="rounded-lg shadow-lg border flex-1 flex flex-col h-max max-w-full xl:w-[560px] 2xl:max-w-full min-w-[320px] p-4 bg-white">
+      <div className="flex flex-col-reverse md:flex-row gap-4">
         <div className="w-full h-max">
           <p className="font-[400]">Revenue Growth</p>
           <h2 className="text-[24px] font-bold">{"$18,000"}</h2>

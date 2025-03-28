@@ -40,7 +40,7 @@ const Dashboard = () => {
         </div>
         <RevenueGrowthCard />
       </div>
-      <div className="flex-1 flex gap-4">
+      <div className="flex-1 flex flex-wrap gap-4">
         <RecentActivityTable activities={recentActivities} />
         <BestSellers />
       </div>

@@ -12,7 +12,7 @@ export const sidebarData = {
   topRoutes: [
     {
       title: "Dashboard",
-      icon: <RxDashboard size={18} className="border-2" />,
+      icon: <RxDashboard size={18} />,
       path: "/cms/dashboard",
       access: "*",
       permissionName: "dashboard",

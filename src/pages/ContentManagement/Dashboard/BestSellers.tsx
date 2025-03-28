@@ -11,7 +11,7 @@ const BestSellers: React.FC = () => {
   }));
 
   return (
-    <div className="rounded-lg shadow-lg border flex flex-col max-w-[374px] w-max p-6 flex flex-wrap items-center gap-4 bg-white">
+    <div className="rounded-lg shadow-lg border flex-1 flex flex-col items-center gap-4 h-max max-w-full xl:w-max xl:max-w-[374px] p-6 bg-white">
       {/* Header */}
       <div className="flex items-start justify-between w-full">
         <p className="font-[400]">Best Selling</p>
@@ -22,7 +22,7 @@ const BestSellers: React.FC = () => {
         {/* Donut Chart */}
         <div className="w-full flex-1 flex justify-center">
           <PieChart
-            width={300}
+            width={320}
             height={220}
             sx={{
               minWidth: "100%",
