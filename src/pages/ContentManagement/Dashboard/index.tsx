@@ -11,6 +11,9 @@ import BestSellers from "./BestSellers";
 const Dashboard = () => {
   return (
     <div className="flex flex-col gap-4">
+      <div className="">
+        <h1 className="text-[24px] font-[400]">Performance Overview</h1>
+      </div>
       <div className="flex flex-wrap gap-4">
         <div className="flex max-w-full xl:max-w-[560px] flex-wrap items-center gap-4">
           <DashboardCard

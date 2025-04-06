@@ -9,7 +9,7 @@ const RecentActivityTable: React.FC<RecentActivityTableProps> = ({
   activities,
 }) => {
   return (
-    <div className="rounded-lg shadow-lg border flex max-w-full p-8 flex-1 flex flex-wrap items-center gap-4 bg-white">
+    <div className="rounded-lg shadow-lg border max-h-[440px] max-w-full w-max min-w-[60%] p-8 overflow-y-auto flex-1 flex flex-wrap items-center gap-4 bg-white">
       <p className="font-[400]">Recent Activity</p>
 
       <div className="overflow-x-auto w-full">

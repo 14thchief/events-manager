@@ -7,6 +7,7 @@ import {
   ToggleButtonGroup,
   Button,
   Box,
+  Select,
 } from "@mui/material";
 import LineChartComponent from "../../../components/Charts/LineChart";
 
@@ -54,6 +55,8 @@ const RevenueGrowthCard: React.FC = () => {
     }
   };
 
+  const [selectedTime, setSelectedTime] = useState("1h");
+
   return (
     <div className="rounded-lg shadow-lg border flex-1 flex flex-col h-max max-w-full xl:w-[560px] 2xl:max-w-full min-w-[320px] p-4 bg-white">
       <div className="flex flex-col-reverse md:flex-row gap-4">
@@ -70,17 +73,19 @@ const RevenueGrowthCard: React.FC = () => {
           }}
         >
           {/* Date Button */}
-          <Button
-            variant="outlined"
-            sx={{
+          <select
+            style={{
               textTransform: "none",
+              borderWidth: 1,
               borderColor: "#B49C4F",
               color: "#B49C4F",
               height: 20,
+              borderRadius: 50,
+              fontSize: 8,
             }}
           >
-            Date
-          </Button>
+            <option>Date</option>
+          </select>
 
           {/* Toggle Buttons for Ranges */}
           <ToggleButtonGroup
@@ -89,26 +94,34 @@ const RevenueGrowthCard: React.FC = () => {
             onChange={handleRangeChange}
             aria-label="time range"
           >
-            {["1h", "3h", "1d", "1w", "1m"].map((item) => (
-              <ToggleButton
-                key={item}
-                value={item}
-                aria-label={item}
-                sx={{
-                  textTransform: "none",
-                  borderColor: "#B49C4F",
-                  borderRadius: 50,
-                  height: 20,
-                  color: "#B49C4F",
-                  "&.Mui-selected": {
-                    backgroundColor: "#B49C4F",
-                    color: "#fff",
-                  },
-                }}
-              >
-                {item}
-              </ToggleButton>
-            ))}
+            {["1h", "3h", "1d", "1w", "1m"].map((item) => {
+              const isSelected = item === selectedTime;
+              return (
+                <button
+                  key={item}
+                  value={item}
+                  aria-label={item}
+                  className="flex justify-center items-center"
+                  onClick={() => setSelectedTime(item)}
+                  style={{
+                    textTransform: "none",
+                    borderColor: "#B49C4F",
+                    borderRadius: 50,
+                    marginRight: 2,
+                    height: 20,
+                    fontSize: 8,
+                    color: isSelected ? "#fff" : "#B49C4F",
+                    backgroundColor: isSelected ? "#B49C4F" : "transparent",
+                    // "&.Mui-selected": {
+                    //   backgroundColor: "#B49C4F",
+                    //   color: "#fff",
+                    // },
+                  }}
+                >
+                  {item}
+                </button>
+              );
+            })}
           </ToggleButtonGroup>
         </Box>
       </div>

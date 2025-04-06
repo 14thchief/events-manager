@@ -39,7 +39,7 @@ const LoginUI: React.FC<LoginUIProps> = ({ setAuthState }) => {
       const response = await login(data).unwrap();
 
       toast.success("Signed in successfully");
-      navigate("/cms/events");
+      navigate("/cms/dashboard");
     } catch (err: any) {
       if (err?.status === 401) {
         toast.error("Incorrect Email or Password. Please try again.");

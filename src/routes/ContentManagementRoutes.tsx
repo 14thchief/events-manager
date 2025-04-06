@@ -14,7 +14,7 @@ import Dashboard from "../pages/ContentManagement/Dashboard";
 const ContentManagementRoutes = () => {
   return (
     <Routes>
-      <Route index element={<Navigate to="events" replace />} />
+      <Route index element={<Navigate to="dashboard" replace />} />
       <Route
         element={
           <RouteWrapper>
