@@ -51,7 +51,7 @@ const LoginUI: React.FC<LoginUIProps> = ({ setAuthState }) => {
 
   return (
     <div className="w-full max-w-sm md:max-w-md h-max">
-      {userInSession && <Navigate to={"/cms/events"} replace />}
+      {userInSession && <Navigate to={"/cms/dashboard"} replace />}
 
       {/* Logo */}
       <div className="flex flex-col md:gap-10 mb-8">

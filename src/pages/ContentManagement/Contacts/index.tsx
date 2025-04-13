@@ -19,8 +19,14 @@ import { TableColumn } from "../../../components/Table/types";
 import { Status } from "../../../components/StatusBadge/types";
 import { useDispatch } from "react-redux";
 import { openActionModal } from "../../../redux/features/util/actionModalSlice";
-import Select from "../../../components/Forms/Select";
-import { useGetCouponsQuery } from "../../../redux/features/cms/couponSlice";
+import { BiTagAlt } from "react-icons/bi";
+import SideDrawer from "../../../components/Drawer";
+import TagLeadModal from "../Leads/TagLead";
+import CreateButton from "../../../components/CreateButton";
+import Modal from "../../../components/Modal";
+import FileUploadCard from "../../../components/FileUpload";
+import { useBulkUploadMutation } from "../../../redux/features/cms/bulkUploadSlice";
+import { toast } from "react-toastify";
 
 const Contacts = () => {
   const dispatch = useDispatch();
@@ -28,6 +34,9 @@ const Contacts = () => {
   const { data: contacts, isLoading: isContactsLoading } =
     useGetContactsQuery();
   const memoizedContacts = useMemo(() => contacts, [contacts]);
+  const [showModal, setShowModal] = useState(false);
+
+  const [showDrawer, setShowDrawer] = useState(false);
 
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -75,6 +84,71 @@ const Contacts = () => {
         cancelText: "Cancel",
       })
     );
+  };
+
+  const [bulkUpload, { isLoading }] = useBulkUploadMutation();
+  const handleBulkUpload = (data: any[]) => {
+    bulkUpload({ endpoint: "bulkContacts", formData: data })
+      .unwrap()
+      .then((res) => {
+        setShowModal(false);
+        toast.success("Contacts successfully uploaded!");
+      })
+      .catch((err) => console.error({ err }));
+  };
+
+  // Bulk Upload template data
+  const templateData = [
+    {
+      name: "Linda Bekoe",
+      designation: "CEO",
+      company: "APLBC",
+      location: "United Kingdom",
+      email: "linda@aplbc.com",
+      phone_number: "+6090909090",
+      events: "[4,5,3]",
+    },
+    {
+      name: "Edwin Bekoe",
+      designation: "COO",
+      company: "APLBC",
+      location: "United Kingdom",
+      email: "edwin@aplbc.com",
+      phone_number: "+6090909091",
+      events: "[1,2,3]",
+    },
+  ];
+
+  // Header schema with aliases and required fields
+  const headerSchema = {
+    name: {
+      required: true, // user must provide this column
+      aliases: ["Full Name"], // allow "Full Name" to match "name"
+    },
+    designation: {
+      required: false,
+      aliases: ["role", "job title"],
+    },
+    company: {
+      required: false,
+      aliases: ["organization", "company name"],
+    },
+    location: {
+      required: false,
+      aliases: ["city", "address"],
+    },
+    email: {
+      required: true,
+      aliases: ["email address", "e-mail"],
+    },
+    phone_number: {
+      required: true,
+      aliases: ["phone", "phone number", "PhoneNumber"],
+    },
+    events: {
+      required: false,
+      aliases: ["tags", "array"],
+    },
   };
 
   const columns: TableColumn<Contact>[] = [
@@ -151,10 +225,25 @@ const Contacts = () => {
                         },
                       });
                     }}
-                    className="cursor-pointer hover:bg-gray-50 transition transition-bg flex items-center gap-2 p-2"
+                    className="cursor-pointer flex items-center gap-2 p-2"
                   >
                     <Edit size={16} />
                     Edit
+                  </p>
+                ),
+              },
+              {
+                label: "Tag Contacts",
+                icon: <BiTagAlt size={16} />,
+                customComponent: (
+                  <p
+                    onClick={() => {
+                      setShowDrawer(true);
+                    }}
+                    className="cursor-pointer flex items-center gap-2 p-2"
+                  >
+                    <BiTagAlt size={16} />
+                    Tag Contacts
                   </p>
                 ),
               },
@@ -164,7 +253,7 @@ const Contacts = () => {
               //   customComponent: (
               //     <p
               //       onClick={() => handleDelete(row.original.id as number)}
-              //       className="cursor-pointer hover:bg-gray-50 transition transition-bg flex items-center gap-2 p-2 text-red-600"
+              //       className="cursor-pointer flex items-center gap-2 p-2 text-red-600"
               //     >
               //       <Trash size={18} />
               //       Delete
@@ -183,11 +272,10 @@ const Contacts = () => {
     <PageLayout
       title="Contacts"
       actions={[
-        <Button
-          onClick={() => navigate("/cms/contacts/create")}
-          key={"add_contact"}
-          text="Add contact"
-          icon={<Add />}
+        <CreateButton
+          label="Add Contacts"
+          onSingleCreate={() => navigate("/cms/contacts/create")}
+          onBulkCreate={() => setShowModal(true)}
         />,
       ]}
     >
@@ -217,6 +305,22 @@ const Contacts = () => {
           isPaginated: "local",
         }}
       />
+
+      <SideDrawer
+        isOpen={showDrawer}
+        closeDrawer={() => setShowDrawer(false)}
+        children={<TagLeadModal closeDrawer={() => setShowDrawer(false)} />}
+      />
+
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <FileUploadCard
+          onSubmit={(data) => handleBulkUpload(data)}
+          title="Contacts"
+          templateData={templateData}
+          headerSchema={headerSchema}
+          isLoading={isLoading}
+        />
+      </Modal>
     </PageLayout>
   );
 };

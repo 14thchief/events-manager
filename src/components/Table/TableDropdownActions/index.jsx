@@ -43,7 +43,11 @@ const TableDropdownActions = ({ actions }) => {
             }
 
             return (
-              item.customComponent ?? (
+              (
+                <div className="hover:bg-primary transition transition-bg">
+                  {item.customComponent}
+                </div>
+              ) ?? (
                 <button
                   key={index}
                   className={styles.actionButton}
